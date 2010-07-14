@@ -13,34 +13,7 @@
 #define RECV_TIMEOUT 10
 #define SEND_TIMEOUT 10
 #define BROADCAST_MAC @"ff:ff:ff:ff:ff:ff"
-#define LIST_MACS_REQ @"LIST-MACS"
-#define LIST_PROXIES_REQ @"LIST-PROXIES"
-
-enum PACKET_KEYS {
-	PACKET_TYPE,
-	PACKET_PORT,
-	PACKET_MACS,
-	PACKET_PROXIES
-};
-
-enum PACKET_TYPE {
-	PROXY_LIST_RESPONSE,
-	MAC_LIST_RESPONSE
-};
-
-@interface RemoteXboxProxy : NSObject
-{
-	NSArray * macAddresses;
-	AsyncUdpSocket * clientSocket;
-}
-@property (assign) NSArray * macAddresses;
-- (id) initWithHost:(NSString *) host port:(int) port andSocketDelegate:(id) delegate;
-- (id) initWithHost:(NSString *) host port:(int) port socketDelegate:(id) delegate andMacAddresses:(NSArray *) _macAddresses;
-- (BOOL) send:(id) packetContents;
-- (NSString *) host;
-- (UInt16) port;
-@end
-
+#define HELLO_PACKET @"Hello"
 
 @interface XboxProxy : NSObject {
 	// Sniffer variables
@@ -49,13 +22,15 @@ enum PACKET_TYPE {
 	NSString * filter;
 	
 	NSString * myExternalIp;
-	NSMutableArray * localMacAddresses;
-	NSMutableArray * remoteXboxProxies;
+	NSMutableDictionary * macDestinationAddrMap;
 	AsyncUdpSocket * serverSocket;
 	NSOperationQueue * queue;
 }
 
+- (void) connectTo:(NSString *) host port:(UInt16) port;
+
 - (void) setDev:(NSString *) _dev;
 - (void) setFilter:(NSString *) _filter;
-- (void) updateRemoteProxy:(NSString *) proxy withUpdateDictionary:(NSDictionary *) updateDict;
+- (void) updateBroadcastArray:(NSArray *)newAddresses;
+- (void) handleReceivedPacket:(NSData *) packet fromHost:(NSString *) host port:(UInt16) port;
 @end

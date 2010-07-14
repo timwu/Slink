@@ -9,60 +9,7 @@
 #import "XboxProxy.h"
 #import "PortMapper.h"
 
-@implementation RemoteXboxProxy
-
-@synthesize macAddresses;
-- (id) initWithHost:(NSString *)host port:(int)port andSocketDelegate:(id) delegate
-{
-	if (self = [super init]) {
-		NSError * connectError;
-		clientSocket = [[AsyncUdpSocket alloc] initWithDelegate:delegate];
-		if ([clientSocket connectToHost:host onPort:port error:&connectError] == NO) {
-			self = nil;
-		}
-		[self send:LIST_MACS_REQ];
-	}
-	return self;
-}
-- (id) initWithHost:(NSString *)host port:(int)port socketDelegate:(id)delegate andMacAddresses:(NSArray *) _macAddresses
-{
-	if (self = [self initWithHost:host port:port andSocketDelegate:delegate]) {
-		macAddresses = _macAddresses;
-	}
-	return self;
-}
-- (BOOL) send:(id) packetContents
-{
-	NSError * serializationError = nil;
-	NSData * packet = [NSPropertyListSerialization dataWithPropertyList:packetContents 
-																 format:NSPropertyListBinaryFormat_v1_0 
-																options:0 
-																  error:&serializationError];
-	if (serializationError) {
-		NSLog(@"Data packet serialization error: %@", serializationError);
-		return NO;
-	} else {
-		[clientSocket sendData:packet withTimeout:SEND_TIMEOUT tag:0];
-	}
-	return YES;
-}
-- (NSString *) host
-{
-	return [clientSocket connectedHost];
-}
-- (UInt16) port
-{
-	return [clientSocket connectedPort];
-}
-- (NSString *) description
-{
-	return [NSString stringWithFormat:@"RemoteXboxProxy @ %@:%d [%@]", self.host, self.port, self.macAddresses];
-}
-@end
-
-
 @implementation XboxProxy
-
 //////////////////////////////////////////////////////////////
 #pragma mark initializers
 //////////////////////////////////////////////////////////////
@@ -70,12 +17,15 @@
 {
 	if (self = [super init]) {
 		myExternalIp = [PortMapper findPublicAddress];
+		macDestinationAddrMap = [NSMutableDictionary dictionaryWithObject:[NSMutableArray arrayWithCapacity:5] forKey:BROADCAST_MAC];
 		queue = [[NSOperationQueue alloc] init];
-		localMacAddresses = [NSMutableArray arrayWithCapacity:5];
-		[localMacAddresses addObject:BROADCAST_MAC];
-		remoteXboxProxies = [NSMutableArray arrayWithCapacity:5];
 	}
 	return self;
+}
+
+- (void) connectTo:(NSString *)host port:(UInt16)port
+{
+
 }
 
 //////////////////////////////////////////////////////////////
@@ -100,28 +50,10 @@
 		[sniffer setFilter:filter];
 	}
 }
-- (void) updateRemoteProxy:(NSString *)proxy withUpdateDictionary:(NSDictionary *) updateDict
+
+- (void) updateBroadcastArray:(NSArray *) newAddresses
 {
-	NSNumber * portNumber = [updateDict objectForKey:[NSNumber numberWithInt:PACKET_PORT]];
-	NSArray * macAddresses = [updateDict objectForKey:[NSNumber numberWithInt:PACKET_MACS]];
-	if (portNumber == nil || macAddresses == nil) {
-		NSLog(@"Malformed proxy update packet: %@", updateDict);
-		return;
-	}
-	for(RemoteXboxProxy * remoteXboxProxy in remoteXboxProxies) {
-		if ([remoteXboxProxy.host isEqual:proxy] && remoteXboxProxy.port == [portNumber intValue]) {
-			[remoteXboxProxy setMacAddresses:macAddresses];
-			NSLog(@"Updated proxy: %@", remoteXboxProxy);
-			return;
-		}
-	}
-	// Not found, so add it
-	RemoteXboxProxy * remoteXboxProxy = [[RemoteXboxProxy alloc] initWithHost:proxy 
-																		 port:[portNumber intValue] 
-															   socketDelegate:self 
-															  andMacAddresses:macAddresses];
-	[remoteXboxProxies addObject:remoteXboxProxy];
-	NSLog(@"Added proxy: %@", remoteXboxProxy);
+	// Do something
 }
 
 //////////////////////////////////////////////////////////////
@@ -133,22 +65,20 @@
 	NSString * dstMacAddress = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x", 
 							 packetData[0], packetData[1], packetData[2],
 							 packetData[3], packetData[4], packetData[5]];
-	NSString * srcMacAddress = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x", 
-								packetData[6], packetData[7], packetData[8],
-								packetData[9], packetData[10], packetData[11]];
-	BOOL updatedMacAddressList = NO;
-	if ([localMacAddresses containsObject:srcMacAddress] == NO) {
-		[localMacAddresses addObject:srcMacAddress];
-		updatedMacAddressList = YES;
+	NSArray * destinationServer = [macDestinationAddrMap objectForKey:dstMacAddress];
+	NSString * host = [destinationServer objectAtIndex:0];
+	NSNumber * port = [destinationServer objectAtIndex:1];
+	if (host == nil || port == nil) {
+		NSLog(@"Got a packet to nowhere...");
+	} else {
+		[serverSocket sendData:packet toHost:host port:[port intValue] withTimeout:SEND_TIMEOUT tag:0];
 	}
-	for(RemoteXboxProxy * remoteXboxProxy in remoteXboxProxies) {
-		if ([remoteXboxProxy.macAddresses containsObject:dstMacAddress]) {
-			[remoteXboxProxy send:packet];
-		}
-		if (updatedMacAddressList) {
-			[remoteXboxProxy send:localMacAddresses];
-		}
-	}
+}
+
+- (void) handleReceivedPacket:(NSData *)packet fromHost:(NSString *) host port:(UInt16) port
+{
+	// check if this host needs to be added to the list
+	[sniffer inject:packet];
 }
 
 //////////////////////////////////////////////////////////////
@@ -157,17 +87,25 @@
 - (BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port
 {
 	NSError * decodingError;
-	NSDictionary * decodedPacket = [NSPropertyListSerialization propertyListWithData:data options:0 format:NSPropertyListBinaryFormat_v1_0 error:&decodingError];
+	NSPropertyListFormat format;
+	id decodedPacket = [NSPropertyListSerialization propertyListWithData:data options:0 format:&format error:&decodingError];
 	if ([decodedPacket isKindOfClass:[NSData class]]) {
-		[sniffer inject:decodedPacket];
-	} else if ([decodedPacket isKindOfClass:[NSDictionary class]]) {
-		if ([[decodedPacket objectForKey:[NSNumber numberWithInt:PACKET_TYPE]] intValue] == MAC_LIST_RESPONSE) {
-			[self updateRemoteProxy:host withUpdateDictionary:decodedPacket];
-		} else if ([[decodedPacket objectForKey:[NSNumber numberWithInt:PACKET_TYPE]] intValue] == PROXY_LIST_RESPONSE) {
-			
-		}	
-	} else if ([decodedPacket isKindOfClass:[NSNumber class]]) {
-		
+		[self handleReceivedPacket:decodedPacket fromHost:host port:port];
+	} else if([decodedPacket isKindOfClass:[NSArray class]]) {
+		[self updateBroadcastArray:decodedPacket];
+	} else if ([decodedPacket isEqual:HELLO_PACKET]) {
+		NSError * serializationError;
+		NSData * sendPacket = [NSPropertyListSerialization dataWithPropertyList:[macDestinationAddrMap objectForKey:BROADCAST_MAC] 
+																		 format:NSPropertyListBinaryFormat_v1_0 
+																		options:0 
+																		  error:&serializationError];
+		if (serializationError) {
+			NSLog(@"Failed to serialize broadcast array.");
+		} else {
+			[sock sendData:sendPacket toHost:host port:port withTimeout:SEND_TIMEOUT tag:tag+1];
+		}
+	} else {
+		NSLog(@"Got an unknown packet!");
 	}
 	[sock receiveWithTimeout:RECV_TIMEOUT tag:tag+1];
 	return YES;
