@@ -25,12 +25,23 @@
 
 - (void) connectTo:(NSString *)host port:(UInt16)port
 {
-
+	// List proxies from remote
+	// Greet remote with "introduce:port" packet
 }
 
 //////////////////////////////////////////////////////////////
 #pragma mark getters/setters
 //////////////////////////////////////////////////////////////
+- (id) introducePacket
+{
+	return [NSArray arrayWithObjects:INTRODUCE, myExternalIp, myExternalPort];
+}
+- (id) proxyList
+{
+	return [macDestinationAddrMap objectForKey:BROADCAST_MAC];
+}
+
+@synthesize dev;
 - (void) setDev:(NSString *)_dev
 {
 	if ([_dev isEqual:dev]) {
@@ -43,6 +54,7 @@
 	dev = _dev;
 }
 
+@synthesize filter;
 - (void) setFilter:(NSString *)_filter
 {
 	filter = _filter;
@@ -51,7 +63,7 @@
 	}
 }
 
-- (void) updateBroadcastArray:(NSArray *) newAddresses
+- (void) updateBroadcastArray:(id) newAddresses
 {
 	// Do something
 }
@@ -93,9 +105,9 @@
 		[self handleReceivedPacket:decodedPacket fromHost:host port:port];
 	} else if([decodedPacket isKindOfClass:[NSArray class]]) {
 		[self updateBroadcastArray:decodedPacket];
-	} else if ([decodedPacket isEqual:HELLO_PACKET]) {
+	} else if ([decodedPacket isEqual:LIST_PROXIES_PACKET]) {
 		NSError * serializationError;
-		NSData * sendPacket = [NSPropertyListSerialization dataWithPropertyList:[macDestinationAddrMap objectForKey:BROADCAST_MAC] 
+		NSData * sendPacket = [NSPropertyListSerialization dataWithPropertyList:self.proxyList 
 																		 format:NSPropertyListBinaryFormat_v1_0 
 																		options:0 
 																		  error:&serializationError];

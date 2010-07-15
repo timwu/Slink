@@ -92,6 +92,7 @@ static void handlePacket(u_char *_packetHandler, const struct pcap_pkthdr *h, co
 	return bytesWritten;
 }
 
+@synthesize filter;
 - (void) setFilter:(NSString *) _filter
 {
 	struct bpf_program filterProg;

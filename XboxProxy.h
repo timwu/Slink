@@ -14,6 +14,8 @@
 #define SEND_TIMEOUT 10
 #define BROADCAST_MAC @"ff:ff:ff:ff:ff:ff"
 #define HELLO_PACKET @"Hello"
+#define LIST_PROXIES_PACKET @"list-proxies"
+#define INTRODUCE @"Introduce"
 
 @interface XboxProxy : NSObject {
 	// Sniffer variables
@@ -22,15 +24,19 @@
 	NSString * filter;
 	
 	NSString * myExternalIp;
+	NSNumber * myExternalPort;
 	NSMutableDictionary * macDestinationAddrMap;
 	AsyncUdpSocket * serverSocket;
 	NSOperationQueue * queue;
 }
+@property (assign) NSString * dev;
+@property (assign) NSString	 * filter;
 
 - (void) connectTo:(NSString *) host port:(UInt16) port;
 
-- (void) setDev:(NSString *) _dev;
-- (void) setFilter:(NSString *) _filter;
+- (id) introducePacket;
+- (id) proxyList;
+
 - (void) updateBroadcastArray:(NSArray *)newAddresses;
 - (void) handleReceivedPacket:(NSData *) packet fromHost:(NSString *) host port:(UInt16) port;
 @end

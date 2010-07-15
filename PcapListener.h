@@ -36,15 +36,14 @@
 }
 
 + (NSArray *) getAvailableInterfaces;
+
+@property (assign) NSString * filter;
 // Initializers
 - (id) initWithInterface:(NSString *) _interface withDelegate:(id) _delegate;
 - (id) initWithInterface:(NSString *) _interface withDelegate:(id) _delegate
 			   AndFilter:(NSString *) _filter;
 
 - (int) inject: (NSData *) packet;
-
-// Getters and setters
-- (void) setFilter:(NSString *) _filter;
 
 // Lifecyle methods
 - (void) close;
