@@ -13,7 +13,9 @@
 @synthesize window;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	// Insert code here to initialize your application 
+	NSLog(@"Launching");
+	xboxProxy = [[XboxProxy alloc] initWithPort:5000];
+	[xboxProxy connectTo:@"192.168.1.110" port:5000];
 }
 
 @end

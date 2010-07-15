@@ -7,9 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "XboxProxy.h"
 
 @interface SlinkAppDelegate : NSObject <NSApplicationDelegate> {
     NSWindow *window;
+	XboxProxy * xboxProxy;
 }
 
 @property (assign) IBOutlet NSWindow *window;
