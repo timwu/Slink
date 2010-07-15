@@ -11,7 +11,7 @@
 static void handlePacket(u_char *_packetHandler, const struct pcap_pkthdr *h, const u_char *packet)
 {
 	id packetHandler = (id) _packetHandler;
-	[packetHandler handleSniffedPacket:[NSData dataWithBytesNoCopy:packet length:h->caplen]];
+	[packetHandler handleSniffedPacket:[NSData dataWithBytes:packet length:h->caplen]];
 }
 
 @implementation PcapListenerException

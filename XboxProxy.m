@@ -16,15 +16,21 @@
 - (id) initWithPort:(UInt16) port
 {
 	if (self = [super init]) {
+		serverSocket = nil;
 		myExternalIp = [PortMapper findPublicAddress];
-		macDestinationAddrMap = [NSMutableDictionary dictionaryWithObject:[NSMutableArray arrayWithCapacity:5] forKey:BROADCAST_MAC];
+		macDestinationAddrMap = [NSMutableDictionary dictionaryWithCapacity:5];
+		allKnownProxies = [NSMutableArray arrayWithCapacity:5];
 		self.myPort = [NSNumber numberWithInt:port];
+		self.filter = @"(host 0.0.0.1)";
+		sendTag = 0;
 	}
 	return self;
 }
 
 - (void) connectTo:(NSString *)host port:(UInt16)port
 {
+	// Add the connected host to the known proxy list
+	[self updateBroadcastArray:[self createProxyEntry:host port:port]];
 	// List proxies from remote
 	[self send:LIST_PROXIES_PACKET toHost:host port:port];
 	// Greet remote with "introduce:port" packet
@@ -39,7 +45,12 @@
 		NSLog(@"Error serializing introduce packet. %@", serializationError);
 		return NO;
 	}
-	return [serverSocket sendData:serializedPacket toHost:host port:port withTimeout:SEND_TIMEOUT tag:0];
+	return [serverSocket sendData:serializedPacket toHost:host port:port withTimeout:SEND_TIMEOUT tag:sendTag++];
+}
+
+- (BOOL) send:(id) data toProxy:(NSArray *) proxy
+{
+	return [self send:data toHost:[self getProxyEntryHost:proxy] port:[[self getProxyEntryPort:proxy] intValue]];
 }
 //////////////////////////////////////////////////////////////
 #pragma mark getters/setters
@@ -47,6 +58,7 @@
 @synthesize myPort;
 - (void) setMyPort:(NSNumber *) port
 {
+	proxyThread = [NSThread currentThread];
 	NSError * bindError = nil;
 	if (serverSocket) {
 		[serverSocket close];
@@ -79,6 +91,7 @@
 	if (sniffer) {
 		[sniffer setFilter:filter];
 	}
+	NSLog(@"Filter = %@", filter);
 }
 
 - (void) updateBroadcastArray:(id) candidateProxy
@@ -122,7 +135,25 @@
 
 - (id) proxyList
 {
-	return [macDestinationAddrMap objectForKey:BROADCAST_MAC];
+	return allKnownProxies;
+}
+
+- (BOOL) isProxyEntry:(id) entry
+{
+	if ([entry isKindOfClass:[NSArray class]]) {
+		return [[entry objectAtIndex:0] isKindOfClass:[NSString class]] && [[entry objectAtIndex:1] isKindOfClass:[NSNumber class]];
+	}
+	return NO;
+}
+
+- (NSString *) getProxyEntryHost:(id) entry
+{
+	return [entry objectAtIndex:0];
+}
+
+- (NSNumber *) getProxyEntryPort:(id) entry
+{
+	return [entry objectAtIndex:1];
 }
 
 - (id) getDstMacAddress:(NSData *)packet
@@ -143,14 +174,23 @@
 
 - (void) handleSniffedPacket:(NSData *) packet
 {
-	id dstMacAddress = [self getSrcMacAddress:packet];
-	NSArray * destinationServer = [macDestinationAddrMap objectForKey:dstMacAddress];
-	NSString * host = [destinationServer objectAtIndex:0];
-	NSNumber * port = [destinationServer objectAtIndex:1];
-	if (host == nil || port == nil) {
-		NSLog(@"Got a packet to nowhere...");
+	[self performSelector:@selector(sendSniffedPacket:) onThread:proxyThread withObject:packet waitUntilDone:NO];
+}
+
+- (void) sendSniffedPacket:(NSData *)packet
+{
+	id dstMacAddress = [self getDstMacAddress:packet];
+	if ([dstMacAddress isEqual:BROADCAST_MAC]) {
+		for(id proxyEntry in self.proxyList) {
+			[self send:packet toProxy:proxyEntry];
+		}
+		return;
+	}
+	id destinationServer = [macDestinationAddrMap objectForKey:dstMacAddress];
+	if (destinationServer == nil) {
+		NSLog(@"Got an unknown mac: %@", dstMacAddress);
 	} else {
-		[serverSocket sendData:packet toHost:host port:[port intValue] withTimeout:SEND_TIMEOUT tag:0];
+		[self send:packet toProxy:destinationServer];
 	}
 }
 
@@ -166,15 +206,22 @@
 	// Check if this mac address is in the map, if not update the map with the new mac, and where it came from
 	NSArray * srcMacAddress = [self getSrcMacAddress:packet];
 	if ([macDestinationAddrMap objectForKey:srcMacAddress] == nil) {
-		[macDestinationAddrMap setObject:[NSArray arrayWithObjects:host, [NSNumber numberWithInt:port]] forKey:srcMacAddress];
+		[macDestinationAddrMap setObject:[self createProxyEntry:host port:port] forKey:srcMacAddress];
+		// Since this is a remote mac address, add it to the pcap filtering so we don't get inject feedback.
+		self.filter = [NSString stringWithFormat:@"%@ && !(ether src %@)", self.filter, srcMacAddress];
 	}
 	[sniffer inject:packet];
 }
 
 - (void) handleIntroduce:(NSString *) host port:(UInt16) port
 {
-	NSArray * candidateProxy = [NSArray arrayWithObjects:host, [NSNumber numberWithInt:port]];
+	NSArray * candidateProxy = [self createProxyEntry:host port:port];
 	[self updateBroadcastArray:candidateProxy];
+}
+
+- (id) createProxyEntry:(NSString *) host port:(UInt16) port
+{
+	return [NSArray arrayWithObjects:host, [NSNumber numberWithInt:port], nil];
 }
 
 //////////////////////////////////////////////////////////////
@@ -205,10 +252,18 @@
 
 - (void)onUdpSocket:(AsyncUdpSocket *)sock didNotReceiveDataWithTag:(long)tag dueToError:(NSError *)error
 {
-	NSLog(@"Failed to receieve packet.");
 	if ([error code] != AsyncUdpSocketReceiveTimeoutError) {
 		NSLog(@"Failed to receive packet due to :%@", error);
 	}
 	[sock receiveWithTimeout:RECV_TIMEOUT tag:tag];
+}
+
+- (void)onUdpSocket:(AsyncUdpSocket *)sock didSendDataWithTag:(long)tag
+{
+}
+
+- (void)onUdpSocket:(AsyncUdpSocket *)sock didNotSendDataWithTag:(long)tag dueToError:(NSError *)error
+{
+	NSLog(@"Error sending: %@", error);
 }
 @end

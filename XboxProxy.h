@@ -20,6 +20,8 @@
 typedef NSData MacAddress;
 
 @interface XboxProxy : NSObject {
+	long sendTag;
+	
 	// Sniffer variables
 	PcapListener * sniffer;
 	NSString * dev;
@@ -28,8 +30,9 @@ typedef NSData MacAddress;
 	NSString * myExternalIp;
 	NSNumber * myPort;
 	NSMutableDictionary * macDestinationAddrMap;
+	NSMutableArray * allKnownProxies;
 	AsyncUdpSocket * serverSocket;
-	NSOperationQueue * queue;
+	NSThread * proxyThread;
 }
 @property (assign) NSString * dev;
 @property (assign) NSString	 * filter;
@@ -39,15 +42,21 @@ typedef NSData MacAddress;
 
 - (void) connectTo:(NSString *) host port:(UInt16) port;
 - (BOOL) send:(id) data toHost:(NSString *) host port:(UInt16) port;
+- (BOOL) send:(id) data toProxy:(NSArray *) proxy;
 
+- (id) createProxyEntry:(NSString *) host port:(UInt16) port;
 - (BOOL) isInjectPacket:(id) decodedPacket;
 - (BOOL) isListProxiesPacket:(id) decodedPacket;
 - (BOOL) isIntroducePacket:(id) decodedPacket;
 - (BOOL) isProxyListPacket:(id) decodedPacket;
+- (BOOL) isProxyEntry:(id) entry;
+- (NSString *) getProxyEntryHost:(id) entry;
+- (NSNumber *) getProxyEntryPort:(id) entry;
 - (id) introducePacket;
 - (id) proxyList;
 - (id) getDstMacAddress:(NSData *) packet;
 - (id) getSrcMacAddress:(NSData *) packet;
+- (void) sendSniffedPacket:(NSData *) packet;
 
 - (void) updateBroadcastArray:(NSArray *)newAddresses;
 - (void) handleReceivedPacket:(NSData *) packet fromHost:(NSString *) host port:(UInt16) port;
