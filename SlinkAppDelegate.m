@@ -14,9 +14,14 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	NSLog(@"Launching");
-	xboxProxy = [[XboxProxy alloc] initWithPort:5000 listenDevice:@"en2"];
-	[xboxProxy start];
-	[xboxProxy connectTo:@"192.168.1.110" port:5000];
+	[xboxProxyController startup];
+}
+
+- (NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication *)sender
+{
+	NSLog(@"Going down....");
+	[xboxProxyController shutdown];
+	return NSTerminateNow;
 }
 
 @end

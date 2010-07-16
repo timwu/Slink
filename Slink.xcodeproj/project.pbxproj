@@ -10,6 +10,7 @@
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		2200CD5111EC59530093713C /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 2200CD5011EC59530093713C /* AsyncUdpSocket.m */; };
 		2231DCD811EDB672001560EE /* PortMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2231DCD711EDB672001560EE /* PortMapper.m */; };
+		22D6570E11F0321500A13027 /* XboxProxyController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */; };
 		22F5F1EB11EA3F6900AA933B /* XboxProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */; };
 		22F8DA4811EC57FD00EC4784 /* PcapListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F8DA4711EC57FD00EC4784 /* PcapListener.m */; };
 		256AC3DA0F4B6AC300CF3369 /* SlinkAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* SlinkAppDelegate.m */; };
@@ -27,6 +28,8 @@
 		2200CD5011EC59530093713C /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
 		2231DCD611EDB672001560EE /* PortMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortMapper.h; sourceTree = "<group>"; };
 		2231DCD711EDB672001560EE /* PortMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PortMapper.m; sourceTree = "<group>"; };
+		22D6570C11F0321500A13027 /* XboxProxyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XboxProxyController.h; sourceTree = "<group>"; };
+		22D6570D11F0321500A13027 /* XboxProxyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XboxProxyController.m; sourceTree = "<group>"; };
 		22F5F1E911EA3F6900AA933B /* XboxProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XboxProxy.h; sourceTree = "<group>"; };
 		22F5F1EA11EA3F6900AA933B /* XboxProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XboxProxy.m; sourceTree = "<group>"; };
 		22F8DA4611EC57FD00EC4784 /* PcapListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PcapListener.h; sourceTree = "<group>"; };
@@ -56,6 +59,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				22D6570C11F0321500A13027 /* XboxProxyController.h */,
+				22D6570D11F0321500A13027 /* XboxProxyController.m */,
 				2231DCDA11EDB675001560EE /* PortMapper */,
 				2200CD5311EC595C0093713C /* AsyncUdpSocket */,
 				22F8DA4511EC57FD00EC4784 /* PcapListener */,
@@ -221,6 +226,7 @@
 				22F8DA4811EC57FD00EC4784 /* PcapListener.m in Sources */,
 				2200CD5111EC59530093713C /* AsyncUdpSocket.m in Sources */,
 				2231DCD811EDB672001560EE /* PortMapper.m in Sources */,
+				22D6570E11F0321500A13027 /* XboxProxyController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
