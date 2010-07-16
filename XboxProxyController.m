@@ -13,7 +13,13 @@
 - (void) startup
 {
 	NSLog(@"Starting up");
-	[externalIpField setStringValue:[PortMapper findPublicAddress]];
+	NSString * publicIp = [PortMapper findPublicAddress];
+	if(publicIp == nil) {
+		[externalIpField setEditable:YES];
+		[[externalIpField cell] setPlaceholderString:@"Please enter your internet ip."];
+	} else {
+		[externalIpField setStringValue:[PortMapper findPublicAddress]];
+	}
 	[externalPortField setIntValue:DEFAULT_PORT];
 	[deviceSelection addItemsWithTitles:[PcapListener getAvailableInterfaces]];
 }
@@ -23,8 +29,16 @@
 	[xboxProxy close];
 }
 
-- (IBAction) startProxy:(id) sender
+- (IBAction) toggleProxyState:(id) sender
 {
+	// If it's running, shut it down
+	if (xboxProxy && [xboxProxy isRunning]) {
+		[xboxProxy close];
+		xboxProxy = nil;
+		[toggleButton setTitle:@"Start"];
+		[connectButton setEnabled:NO];
+		return;
+	}
 	//NSLog(@"tasked with starting the proxy.");
 	int port = [externalPortField intValue];
 	NSString * dev = [[deviceSelection selectedItem] title];
@@ -34,8 +48,10 @@
 		return;
 	}
 	xboxProxy = [[XboxProxy alloc] initWithPort:port listenDevice:dev];
+	xboxProxy.myExternalIp = [externalIpField stringValue];
 	if ([xboxProxy start]) {
 		[connectButton setEnabled:YES];
+		[toggleButton setTitle:@"Stop"];
 	}
 }
 
@@ -55,5 +71,8 @@
 - (IBAction) deviceSelector:(id) sender
 {
 	[sender setTitle:[sender titleOfSelectedItem]];
+	if (xboxProxy && [xboxProxy isRunning]) {
+		[xboxProxy setDev:[sender titleOfSelectedItem]];
+	}
 }
 @end

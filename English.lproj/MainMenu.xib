@@ -856,9 +856,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 						</object>
 					</object>
-					<object class="NSArray" key="NSToolbarIBAllowedItems">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-					</object>
+					<reference key="NSToolbarIBAllowedItems" ref="0"/>
 					<object class="NSMutableArray" key="NSToolbarIBDefaultItems">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 					</object>
@@ -1595,14 +1593,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">startProxy:</string>
-						<reference key="source" ref="478700267"/>
-						<reference key="destination" ref="700358391"/>
-					</object>
-					<int key="connectionID">604</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">connectToProxy:</string>
 						<reference key="source" ref="478700267"/>
 						<reference key="destination" ref="674441946"/>
@@ -1656,6 +1646,22 @@
 						<reference key="destination" ref="674441946"/>
 					</object>
 					<int key="connectionID">611</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toggleProxyState:</string>
+						<reference key="source" ref="478700267"/>
+						<reference key="destination" ref="700358391"/>
+					</object>
+					<int key="connectionID">612</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">toggleButton</string>
+						<reference key="source" ref="478700267"/>
+						<reference key="destination" ref="700358391"/>
+					</object>
+					<int key="connectionID">613</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2676,6 +2682,8 @@
 					<string>545.IBPluginDependency</string>
 					<string>546.IBPluginDependency</string>
 					<string>547.IBPluginDependency</string>
+					<string>552.IBPluginDependency</string>
+					<string>553.IBPluginDependency</string>
 					<string>559.IBEditorWindowLastContentRect</string>
 					<string>559.IBPluginDependency</string>
 					<string>56.IBPluginDependency</string>
@@ -2705,7 +2713,6 @@
 					<string>590.IBPluginDependency</string>
 					<string>591.IBPluginDependency</string>
 					<string>595.IBAttributePlaceholdersKey</string>
-					<string>595.IBPluginDependency</string>
 					<string>72.IBPluginDependency</string>
 					<string>72.ImportedFromIB2</string>
 					<string>73.IBPluginDependency</string>
@@ -2896,6 +2903,8 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{311, 748}, {616, 0}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2938,7 +2947,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 						</object>
 					</object>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2983,7 +2991,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">611</int>
+			<int key="maxID">613</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3051,7 +3059,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>connectToProxy:</string>
 							<string>deviceSelector:</string>
-							<string>startProxy:</string>
+							<string>toggleProxyState:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3066,7 +3074,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>connectToProxy:</string>
 							<string>deviceSelector:</string>
-							<string>startProxy:</string>
+							<string>toggleProxyState:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3079,7 +3087,7 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">startProxy:</string>
+								<string key="name">toggleProxyState:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 						</object>
@@ -3094,6 +3102,7 @@
 							<string>deviceSelection</string>
 							<string>externalIpField</string>
 							<string>externalPortField</string>
+							<string>toggleButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3103,6 +3112,7 @@
 							<string>NSPopUpButton</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
+							<string>NSButton</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -3115,6 +3125,7 @@
 							<string>deviceSelection</string>
 							<string>externalIpField</string>
 							<string>externalPortField</string>
+							<string>toggleButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3141,6 +3152,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">externalPortField</string>
 								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">toggleButton</string>
+								<string key="candidateClassName">NSButton</string>
 							</object>
 						</object>
 					</object>

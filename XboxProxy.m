@@ -39,7 +39,7 @@
 		isRunning = NO;
 		serverSocket = nil;
 		sniffer = nil;
-		myExternalIp = [PortMapper findPublicAddress];
+		myExternalIp = nil;
 		macDestinationAddrMap = [NSMutableDictionary dictionaryWithCapacity:5];
 		allKnownProxies = [NSMutableArray arrayWithCapacity:5];
 		self.myPort = [NSNumber numberWithInt:port];
@@ -184,9 +184,9 @@
 			return;
 		}
 	}
-	if ([[self createProxyEntry:self.myExternalIp port:[self.myPort intValue]] isEqualToArray:candidateProxy]) {
-		return;
-	}
+	//if ([[self createProxyEntry:self.myExternalIp port:[self.myPort intValue]] isEqualToArray:candidateProxy]) {
+//		return;
+	//}
 	[self.proxyList addObject:candidateProxy];
 }
 

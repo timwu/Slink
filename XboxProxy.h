@@ -53,7 +53,7 @@ typedef NSData MacAddress;
 @property (assign) NSString * dev;
 @property (assign) NSString	 * filter;
 @property (assign) NSNumber * myPort;
-@property (readonly) NSString * myExternalIp;
+@property (assign) NSString * myExternalIp;
 @property (readonly) BOOL isRunning;
 
 - (id) initWithPort:(UInt16)port listenDevice:(NSString *) _dev;

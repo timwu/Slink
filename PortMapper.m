@@ -59,7 +59,7 @@ Copyright © 2007 Apple Inc. All Rights Reserved.
 
 
 #ifndef Log
-#define ENABLE_LOGGING 0                            /* Change value to 1 to enable logging. */
+#define ENABLE_LOGGING 1                            /* Change value to 1 to enable logging. */
 #define Log   if(!ENABLE_LOGGING) ; else NSLog
 #endif
 
@@ -100,6 +100,7 @@ static NSString* StringFromIPv4Addr( UInt32 ipv4Addr )
     self = [super init];
     if (self != nil) {
         _port = port;
+		_desiredPublicPort = port;
         _mapTCP = YES;
     }
     return self;
@@ -157,6 +158,10 @@ static NSString* StringFromIPv4Addr( UInt32 ipv4Addr )
     
     if( ! errorCode ) {
         Log(@"PortMapper: Got %@ :%hu (mapped=%i)", self.publicAddress,self.publicPort,self.isMapped);
+		if(self.publicAddress == nil && self.publicPort == 0) {
+			Log(@"PortMapper: Error couldn't get the public address.");
+			self.error = -1;
+		}
     }
     [[NSNotificationCenter defaultCenter] postNotificationName: PortMapperChangedNotification
                                                         object: self];

@@ -21,12 +21,13 @@
 	IBOutlet NSTextField * connectPort;
 	IBOutlet NSPopUpButton * deviceSelection;
 	IBOutlet NSButton * connectButton;
+	IBOutlet NSButton * toggleButton;
 }
 
 - (void) startup;
 - (void) shutdown;
 
-- (IBAction) startProxy:(id) sender;
+- (IBAction) toggleProxyState:(id) sender;
 - (IBAction) connectToProxy:(id) sender;
 - (IBAction) deviceSelector:(id) sender;
 @end
