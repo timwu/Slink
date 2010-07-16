@@ -19,8 +19,24 @@
 
 typedef NSData MacAddress;
 
+@interface XboxProxySendRequest : NSObject
+{
+	id data;
+	NSString * host;
+	UInt16 port;
+}
+@property (assign) id data;
+@property (assign) NSString * host;
+@property (assign) UInt16 port;
+
+- (id) initWithData:(id) _data host:(NSString *) _host port:(UInt16) _port;
++ (id) sendRequestWithData:(id) _data host:(NSString *) _host port:(UInt16) _port;
+@end
+
+
 @interface XboxProxy : NSObject {
 	long sendTag;
+	BOOL isRunning;
 	
 	// Sniffer variables
 	PcapListener * sniffer;
@@ -37,12 +53,19 @@ typedef NSData MacAddress;
 @property (assign) NSString * dev;
 @property (assign) NSString	 * filter;
 @property (assign) NSNumber * myPort;
+@property (readonly) NSString * myExternalIp;
 
-- (id) initWithPort:(UInt16)port;
+- (id) initWithPort:(UInt16)port listenDevice:(NSString *) _dev;
+
+- (void) close;
+- (BOOL) start;
+- (BOOL) startServerSocket;
+- (BOOL) startSniffer;
 
 - (void) connectTo:(NSString *) host port:(UInt16) port;
-- (BOOL) send:(id) data toHost:(NSString *) host port:(UInt16) port;
-- (BOOL) send:(id) data toProxy:(NSArray *) proxy;
+- (void) send:(id) data toHost:(NSString *) host port:(UInt16) port;
+- (void) send:(id) data toProxy:(id) proxy;
+- (void) doSend:(XboxProxySendRequest *)sendReq;
 
 - (id) createProxyEntry:(NSString *) host port:(UInt16) port;
 - (BOOL) isInjectPacket:(id) decodedPacket;

@@ -229,6 +229,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -271,7 +273,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>8</integer>
+									<integer>6</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
@@ -307,14 +309,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>XboxProxy.m</string>
+								<string>SlinkAppDelegate.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -322,23 +322,23 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>XboxProxy.m</string>
+										<string>SlinkAppDelegate.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>22F07F0B11EF0DE6002652FF</string>
+										<string>22F07F0F11EF0EB1002652FF</string>
 										<key>history</key>
 										<array>
 											<string>22F5F1E211EA3E9200AA933B</string>
 											<string>22222E5111EB117F00A1D603</string>
 											<string>22C62E1711EEE73100BC17D5</string>
-											<string>22F07E4811EEF39B002652FF</string>
-											<string>22F07E5211EEF405002652FF</string>
 											<string>22F07EAC11EEFEBE002652FF</string>
 											<string>22F07ED111EF05CD002652FF</string>
 											<string>22F07EE611EF0801002652FF</string>
 											<string>22F07F0111EF0C3C002652FF</string>
-											<string>22F07F0711EF0D0B002652FF</string>
+											<string>22F07F0C11EF0EB1002652FF</string>
+											<string>22F07F0D11EF0EB1002652FF</string>
+											<string>22F07F0E11EF0EB1002652FF</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>

@@ -14,8 +14,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	NSLog(@"Launching");
-	xboxProxy = [[XboxProxy alloc] initWithPort:5000];
-	[xboxProxy setDev:@"en2"];
+	xboxProxy = [[XboxProxy alloc] initWithPort:5000 listenDevice:@"en2"];
+	[xboxProxy start];
 	[xboxProxy connectTo:@"192.168.1.110" port:5000];
 }
 

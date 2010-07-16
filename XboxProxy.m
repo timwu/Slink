@@ -9,23 +9,104 @@
 #import "XboxProxy.h"
 #import "PortMapper.h"
 
+@implementation XboxProxySendRequest
+@synthesize data, host, port;
+- (id) initWithData:(id)_data host:(NSString *)_host port:(UInt16)_port
+{
+	if (self = [super init]) {
+		self.data = _data;
+		self.host = _host;
+		self.port = _port;
+	}
+	return self;
+}
+
++ (id) sendRequestWithData:(id)_data host:(NSString *)_host port:(UInt16)_port
+{
+	return [[self alloc] initWithData:_data host:_host port:_port];
+}
+@end
+
+
+
 @implementation XboxProxy
 //////////////////////////////////////////////////////////////
 #pragma mark initializers
 //////////////////////////////////////////////////////////////
-- (id) initWithPort:(UInt16) port
+- (id) initWithPort:(UInt16) port listenDevice:(NSString *) _dev
 {
 	if (self = [super init]) {
+		isRunning = NO;
 		serverSocket = nil;
+		sniffer = nil;
 		myExternalIp = [PortMapper findPublicAddress];
 		macDestinationAddrMap = [NSMutableDictionary dictionaryWithCapacity:5];
 		allKnownProxies = [NSMutableArray arrayWithCapacity:5];
 		self.myPort = [NSNumber numberWithInt:port];
 		self.filter = @"(host 0.0.0.1)";
+		self.dev = _dev;
 		sendTag = 0;
 	}
 	return self;
 }
+
+- (BOOL) startServerSocket
+{
+	// Kill the previous server if it's there.
+	if (serverSocket) {
+		[serverSocket close];
+	}
+	// The thread the server socket is running on will be xboxproxy's main thread.
+	proxyThread = [NSThread currentThread];
+	NSError * bindError = nil;
+	serverSocket = [[AsyncUdpSocket alloc] initWithDelegate:self];
+	if([serverSocket bindToPort:[self.myPort intValue] error:&bindError] == NO) {
+		NSLog(@"Error binding to port %@. %@", self.myPort, bindError);
+		return NO;
+	}
+	[serverSocket receiveWithTimeout:RECV_TIMEOUT tag:0];
+	return YES;
+}
+
+- (BOOL) startSniffer
+{
+	if (sniffer) {
+		[sniffer close];
+	}
+	sniffer = [[PcapListener alloc] initWithInterface:self.dev withDelegate:self AndFilter:filter];
+	return sniffer != nil;
+}
+
+- (BOOL) start
+{
+	if (isRunning) {
+		NSLog(@"XboxProxy is already running.");
+		return YES;
+	}
+	if ([self startServerSocket] == NO) {
+		NSLog(@"Error starting server socket.");
+		return NO;
+	}
+	if ([self startSniffer] == NO) {
+		NSLog(@"Error starting packet sniffer.");
+		return NO;
+	}
+	isRunning = YES;
+	return YES;
+}
+
+- (void) close
+{
+	[serverSocket close];
+	serverSocket = nil;
+	self.filter = @"(host 0.0.0.1)";
+	[sniffer close];
+	sniffer = nil;
+	macDestinationAddrMap = [NSMutableDictionary dictionaryWithCapacity:5];
+	allKnownProxies = [NSMutableArray arrayWithCapacity:5];
+	isRunning = NO;
+}
+	
 
 - (void) connectTo:(NSString *)host port:(UInt16)port
 {
@@ -33,42 +114,46 @@
 	[self updateBroadcastArray:[self createProxyEntry:host port:port]];
 	// List proxies from remote
 	[self send:LIST_PROXIES_PACKET toHost:host port:port];
-	// Greet remote with "introduce:port" packet
+	// Greet remote with "Introduce" packet
 	[self send:self.introducePacket toHost:host port:port];
 }
 
-- (BOOL) send:(id) data toHost:(NSString *) host port:(UInt16) port
+- (void) send:(id) data toHost:(NSString *) host port:(UInt16) port
 {
-	NSError * serializationError = nil;
-	NSData * serializedPacket = [NSPropertyListSerialization dataWithPropertyList:data format:NSPropertyListBinaryFormat_v1_0 options:0 error:&serializationError];
-	if (serializationError) {
-		NSLog(@"Error serializing introduce packet. %@", serializationError);
-		return NO;
-	}
-	return [serverSocket sendData:serializedPacket toHost:host port:port withTimeout:SEND_TIMEOUT tag:sendTag++];
+	[self performSelector:@selector(doSend:) 
+				 onThread:proxyThread 
+			   withObject:[XboxProxySendRequest sendRequestWithData:data host:host port:port] 
+			waitUntilDone:NO];
 }
 
-- (BOOL) send:(id) data toProxy:(NSArray *) proxy
+- (void) send:(id) data toProxy:(id) proxy
 {
-	return [self send:data toHost:[self getProxyEntryHost:proxy] port:[[self getProxyEntryPort:proxy] intValue]];
+	[self send:data toHost:[self getProxyEntryHost:proxy] port:[[self getProxyEntryPort:proxy] intValue]];
+}
+
+- (void) doSend:(XboxProxySendRequest *) sendReq
+{
+	NSError * serializationError = nil;
+	NSData * serializedPacket = [NSPropertyListSerialization dataWithPropertyList:sendReq.data format:NSPropertyListBinaryFormat_v1_0 options:0 error:&serializationError];
+	if (serializationError) {
+		NSLog(@"Error serializing introduce packet. %@", serializationError);
+	}
+	if ([serverSocket sendData:serializedPacket toHost:sendReq.host port:sendReq.port withTimeout:SEND_TIMEOUT tag:sendTag++] == NO) {
+		NSLog(@"Error sending packet.");
+	}
 }
 //////////////////////////////////////////////////////////////
 #pragma mark getters/setters
 //////////////////////////////////////////////////////////////
+@synthesize myExternalIp;
 @synthesize myPort;
 - (void) setMyPort:(NSNumber *) port
 {
-	proxyThread = [NSThread currentThread];
-	NSError * bindError = nil;
-	if (serverSocket) {
-		[serverSocket close];
-	}
-	serverSocket = [[AsyncUdpSocket alloc] initWithDelegate:self];
-	if([serverSocket bindToPort:[port intValue] error:&bindError] == NO) {
-		NSLog(@"Error binding to port %@. %@", port, bindError);
+	myPort = port;
+	if (isRunning == NO) {
 		return;
 	}
-	[serverSocket receiveWithTimeout:RECV_TIMEOUT tag:0];
+	[self startServerSocket];
 }
 
 @synthesize dev;
@@ -77,11 +162,8 @@
 	if ([_dev isEqual:dev]) {
 		return;
 	}
-	if (sniffer) {
-		[sniffer close];
-	}
-	sniffer = [[PcapListener alloc] initWithInterface:_dev withDelegate:self AndFilter:filter];
 	dev = _dev;
+	[self startSniffer];
 }
 
 @synthesize filter;
@@ -91,7 +173,6 @@
 	if (sniffer) {
 		[sniffer setFilter:filter];
 	}
-	NSLog(@"Filter = %@", filter);
 }
 
 - (void) updateBroadcastArray:(id) candidateProxy
@@ -101,6 +182,9 @@
 			// we already know about this proxy
 			return;
 		}
+	}
+	if ([[self createProxyEntry:self.myExternalIp port:[self.myPort intValue]] isEqualToArray:candidateProxy]) {
+		return;
 	}
 	[self.proxyList addObject:candidateProxy];
 }
