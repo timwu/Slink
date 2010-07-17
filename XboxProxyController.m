@@ -13,15 +13,12 @@
 - (void) startup
 {
 	NSLog(@"Starting up");
-	NSString * publicIp = [PortMapper findPublicAddress];
-	if(publicIp == nil) {
-		[externalIpField setEditable:YES];
-		[[externalIpField cell] setPlaceholderString:@"Please enter your internet ip."];
-	} else {
-		[externalIpField setStringValue:[PortMapper findPublicAddress]];
-	}
 	[externalPortField setIntValue:DEFAULT_PORT];
+	[deviceSelection removeAllItems];
 	[deviceSelection addItemsWithTitles:[PcapListener getAvailableInterfaces]];
+	
+	// Register for some notifications
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateExternalIp:) name:XPUpdatedExternalIp object:nil];
 }
 
 - (void) shutdown
@@ -29,6 +26,7 @@
 	[xboxProxy close];
 }
 
+#pragma mark Interface builder actions
 - (IBAction) toggleProxyState:(id) sender
 {
 	// If it's running, shut it down
@@ -48,7 +46,6 @@
 		return;
 	}
 	xboxProxy = [[XboxProxy alloc] initWithPort:port listenDevice:dev];
-	xboxProxy.myExternalIp = [externalIpField stringValue];
 	if ([xboxProxy start]) {
 		[connectButton setEnabled:YES];
 		[toggleButton setTitle:@"Stop"];
@@ -70,9 +67,15 @@
 
 - (IBAction) deviceSelector:(id) sender
 {
-	[sender setTitle:[sender titleOfSelectedItem]];
 	if (xboxProxy && [xboxProxy isRunning]) {
 		[xboxProxy setDev:[sender titleOfSelectedItem]];
 	}
 }
+
+#pragma mark Notification Handlers
+- (void) updateExternalIp:(NSNotification *)notification
+{
+	[externalIpField setStringValue:[[notification object] myExternalIp]];
+}
+
 @end

@@ -30,4 +30,10 @@
 - (IBAction) toggleProxyState:(id) sender;
 - (IBAction) connectToProxy:(id) sender;
 - (IBAction) deviceSelector:(id) sender;
+
+#pragma mark Notification Handlers
+- (void) updateExternalIp:(NSNotification *) notification;
+- (void) xboxProxyStarted:(NSNotification *) notification;
+- (void) xboxProxyStopped:(NSNotification *) notification;
+- (void) connectedToProxy:(NSNotification *) notification;
 @end

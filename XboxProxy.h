@@ -13,9 +13,15 @@
 #define RECV_TIMEOUT 10
 #define SEND_TIMEOUT 10
 #define BROADCAST_MAC @"ff:ff:ff:ff:ff:ff"
-#define HELLO_PACKET @"Hello"
 #define LIST_PROXIES_PACKET @"list-proxies"
 #define INTRODUCE @"Introduce"
+#define INTRODUCE_ACK @"Introduce-ack"
+
+#define XPStarted @"XPStarted"
+#define XPStopped @"XPStopped"
+#define XPFilterStringChanged @"XPFilterStringChanged"
+#define XPConnectedToProxy @"XPConnectedToProxy"
+#define XPUpdatedExternalIp @"XPUpdatedExternalIp"
 
 typedef NSData MacAddress;
 
@@ -53,7 +59,7 @@ typedef NSData MacAddress;
 @property (assign) NSString * dev;
 @property (assign) NSString	 * filter;
 @property (assign) NSNumber * myPort;
-@property (assign) NSString * myExternalIp;
+@property (readonly) NSString * myExternalIp;
 @property (readonly) BOOL isRunning;
 
 - (id) initWithPort:(UInt16)port listenDevice:(NSString *) _dev;
@@ -68,14 +74,17 @@ typedef NSData MacAddress;
 - (void) send:(id) data toProxy:(id) proxy;
 - (void) doSend:(XboxProxySendRequest *)sendReq;
 
+- (id) createIntroduceAckWithHost:(NSString *) host port:(UInt16) port;
 - (id) createProxyEntry:(NSString *) host port:(UInt16) port;
 - (BOOL) isInjectPacket:(id) decodedPacket;
 - (BOOL) isListProxiesPacket:(id) decodedPacket;
 - (BOOL) isIntroducePacket:(id) decodedPacket;
+- (BOOL) isIntroduceAckPacket:(id) decodedPacket;
 - (BOOL) isProxyListPacket:(id) decodedPacket;
 - (BOOL) isProxyEntry:(id) entry;
 - (NSString *) getProxyEntryHost:(id) entry;
 - (NSNumber *) getProxyEntryPort:(id) entry;
+- (NSString *) getMyExternalIpFromIntroduceAck:(id) introduceAck;
 - (id) introducePacket;
 - (id) proxyList;
 - (id) getDstMacAddress:(NSData *) packet;

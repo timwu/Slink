@@ -7,7 +7,6 @@
 //
 
 #import "XboxProxy.h"
-#import "PortMapper.h"
 
 @implementation XboxProxySendRequest
 @synthesize data, host, port;
@@ -26,8 +25,6 @@
 	return [[self alloc] initWithData:_data host:_host port:_port];
 }
 @end
-
-
 
 @implementation XboxProxy
 //////////////////////////////////////////////////////////////
@@ -92,6 +89,7 @@
 		return NO;
 	}
 	isRunning = YES;
+	[[NSNotificationCenter defaultCenter] postNotificationName:XPStarted object:self];
 	return YES;
 }
 
@@ -105,17 +103,18 @@
 	macDestinationAddrMap = [NSMutableDictionary dictionaryWithCapacity:5];
 	allKnownProxies = [NSMutableArray arrayWithCapacity:5];
 	isRunning = NO;
+	[[NSNotificationCenter defaultCenter] postNotificationName:XPStopped object:self];
 }
 	
 
 - (void) connectTo:(NSString *)host port:(UInt16)port
 {
-	// Add the connected host to the known proxy list
-	[self updateBroadcastArray:[self createProxyEntry:host port:port]];
 	// List proxies from remote
 	[self send:LIST_PROXIES_PACKET toHost:host port:port];
 	// Greet remote with "Introduce" packet
 	[self send:self.introducePacket toHost:host port:port];
+	// Send your list of proxies
+	[self send:self.proxyList toHost:host port:port];
 }
 
 - (void) send:(id) data toHost:(NSString *) host port:(UInt16) port
@@ -184,9 +183,9 @@
 			return;
 		}
 	}
-	//if ([[self createProxyEntry:self.myExternalIp port:[self.myPort intValue]] isEqualToArray:candidateProxy]) {
-//		return;
-	//}
+	if ([[self createProxyEntry:self.myExternalIp port:[self.myPort intValue]] isEqualToArray:candidateProxy]) {
+		return;
+	}
 	[self.proxyList addObject:candidateProxy];
 }
 
@@ -208,9 +207,20 @@
 	return [decodedPacket isEqual:INTRODUCE];
 }
 
+- (BOOL) isIntroduceAckPacket:(id) decodedPacket
+{
+	if ([decodedPacket isKindOfClass:[NSArray class]]) {
+		return [[decodedPacket objectAtIndex:0] isEqualTo:INTRODUCE_ACK];
+	}
+	return NO;
+}
+
 - (BOOL) isProxyListPacket:(id) decodedPacket
 {
-	return [decodedPacket isKindOfClass:[NSArray class]];
+	if ([decodedPacket isKindOfClass:[NSArray class]]) {
+		return ![[decodedPacket objectAtIndex:0] isEqualTo:INTRODUCE_ACK];
+	}
+	return NO;
 }
 
 - (id) introducePacket
@@ -239,6 +249,11 @@
 - (NSNumber *) getProxyEntryPort:(id) entry
 {
 	return [entry objectAtIndex:1];
+}
+
+- (NSString *) getMyExternalIpFromIntroduceAck:(id) introduceAck
+{
+	return [self getProxyEntryHost:[introduceAck objectAtIndex:1]];
 }
 
 - (id) getDstMacAddress:(NSData *)packet
@@ -282,7 +297,8 @@
 - (void) handleProxyListPacket:(NSArray *) proxyList
 {
 	for(NSArray * proxy in proxyList) {
-		[self updateBroadcastArray:proxy];
+		//[self updateBroadcastArray:proxy];
+		[self send:INTRODUCE toHost:[self getProxyEntryHost:proxy] port:[[self getProxyEntryPort:proxy] intValue]];
 	}
 }
 
@@ -302,11 +318,31 @@
 {
 	NSArray * candidateProxy = [self createProxyEntry:host port:port];
 	[self updateBroadcastArray:candidateProxy];
+	[[NSNotificationCenter defaultCenter] postNotificationName:XPConnectedToProxy 
+														object:self 
+													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:host, @"host",
+																										  [NSNumber numberWithInt:port], @"port", nil]];
+	// Also acknowledge the introduction
+	[self send:[self createIntroduceAckWithHost:host port:port] toHost:host port:port];
+}
+
+- (void) handleIntroduceAck:(id) packet fromHost:(NSString *) host port:(UInt16) port
+{
+	[self updateBroadcastArray:[self createProxyEntry:host port:port]];
+	if (myExternalIp == nil) {
+		myExternalIp = [self getMyExternalIpFromIntroduceAck:packet];
+		[[NSNotificationCenter defaultCenter] postNotificationName:XPUpdatedExternalIp object:self];
+	}
 }
 
 - (id) createProxyEntry:(NSString *) host port:(UInt16) port
 {
 	return [NSArray arrayWithObjects:host, [NSNumber numberWithInt:port], nil];
+}
+
+- (id) createIntroduceAckWithHost:(NSString *) host port:(UInt16) port
+{
+	return [NSArray arrayWithObjects:INTRODUCE_ACK, [self createProxyEntry: host port:port], nil];
 }
 
 //////////////////////////////////////////////////////////////
@@ -325,6 +361,8 @@
 		[self send:self.proxyList toHost:host port:port];
 	} else if ([self isIntroducePacket:decodedPacket]) {
 		[self handleIntroduce:host port:port];
+	} else if ([self isIntroduceAckPacket:decodedPacket]) {
+		[self updateBroadcastArray:[self createProxyEntry:host port:port]];
 	} else {
 		NSLog(@"Got an unknown packet!");
 	}
