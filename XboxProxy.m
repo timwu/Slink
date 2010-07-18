@@ -308,6 +308,7 @@ id getSrcMacAddress(NSData * packet)
 
 - (void) handleProxyListPacket:(NSArray *) proxyList
 {
+	NSLog(@"Got a proxy list packet.");
 	for(ProxyEntry * proxy in proxyList) {
 		NSLog(@"Sending introduction to: %@", proxy);
 		[self send:INTRODUCE toHost:[proxy objectForKey:@"host"] port:[[proxy objectForKey:@"port"] intValue]];
@@ -329,6 +330,7 @@ id getSrcMacAddress(NSData * packet)
 
 - (void) handleIntroduce:(Introduce *) packet fromHost:(NSString *) host port:(UInt16) port
 {
+	NSLog(@"Got an introduction from %@:%d", host, port);
 	id candidateProxy = [ProxyEntry proxyEntryWithHost:host port:port];
 	[self updateBroadcastArray:candidateProxy];
 	// Also acknowledge the introduction
@@ -341,7 +343,7 @@ id getSrcMacAddress(NSData * packet)
 
 - (void) handleIntroduceAck:(Introduce *) packet fromHost:(NSString *) host port:(UInt16) port
 {
-	NSLog(@"Got introduce ack.");
+	NSLog(@"Got introduce ack from %@:%d", host, port);
 	[self updateBroadcastArray:[ProxyEntry proxyEntryWithHost:host port:port]];
 	if (self.myExternalIp == nil) {
 		NSLog(@"Updating external ip with %@", [packet objectForKey:@"host"]);

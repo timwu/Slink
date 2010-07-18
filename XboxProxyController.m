@@ -64,9 +64,10 @@
 - (IBAction) connectToProxy:(id) sender
 {
 	[[sender window] close];
-	if (self.xboxProxy && self.xboxProxy.running) {
-		[self.xboxProxy connectTo:[connectToIp stringValue] port:[connectToPort intValue]];
+	if(self.xboxProxy == nil || self.xboxProxy.running == NO) {
+		[self toggleProxyState:sender];
 	}
+	[self.xboxProxy connectTo:[connectToIp stringValue] port:[connectToPort intValue]];
 }
 
 - (IBAction) deviceSelector:(id) sender
