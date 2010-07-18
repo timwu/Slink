@@ -298,7 +298,7 @@
 							<real>242</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>109 243 1551 935 0 0 1920 1178 </string>
+						<string>38 243 1551 935 0 0 1920 1178 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -316,7 +316,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>XboxProxyController.h</string>
+								<string>XboxProxyController.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -324,11 +324,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>XboxProxyController.h</string>
+										<string>XboxProxyController.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>22E1131B11F27B1F004187BB</string>
+										<string>22E113CD11F2E7F2004187BB</string>
 										<key>history</key>
 										<array>
 											<string>22F5F1E211EA3E9200AA933B</string>
@@ -340,11 +340,12 @@
 											<string>22D6589511F0674C00A13027</string>
 											<string>22E1121811F25910004187BB</string>
 											<string>22E1121911F25910004187BB</string>
-											<string>22E112BC11F2728E004187BB</string>
-											<string>22E112E011F276A5004187BB</string>
-											<string>22E1130C11F27AC4004187BB</string>
-											<string>22E1131911F27B1F004187BB</string>
-											<string>22E1131A11F27B1F004187BB</string>
+											<string>22E1133B11F28D4E004187BB</string>
+											<string>22E1136C11F2C4FD004187BB</string>
+											<string>22E113A311F2DE93004187BB</string>
+											<string>22E113C511F2E693004187BB</string>
+											<string>22E113CB11F2E7F2004187BB</string>
+											<string>22E113CC11F2E7F2004187BB</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -358,7 +359,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {1287, 583}}</string>
 								<key>RubberWindowFrame</key>
-								<string>109 243 1551 935 0 0 1920 1178 </string>
+								<string>38 243 1551 935 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -378,7 +379,7 @@
 								<key>Frame</key>
 								<string>{{0, 588}, {1287, 306}}</string>
 								<key>RubberWindowFrame</key>
-								<string>109 243 1551 935 0 0 1920 1178 </string>
+								<string>38 243 1551 935 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -542,17 +543,17 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>22E1131C11F27B1F004187BB</string>
+		<string>22E113CE11F2E7F2004187BB</string>
+		<string>22E112E411F276A5004187BB</string>
 		<string>22E111DE11F23AC0004187BB</string>
 		<string>22E111DF11F23AC0004187BB</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>22F5F1DC11EA3D6100AA933B</string>
-		<string>22E112E411F276A5004187BB</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>/Users/tim/Projects/Slink/Slink.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>109 243 1551 935 0 0 1920 1178 </string>
+	<string>38 243 1551 935 0 0 1920 1178 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -568,14 +569,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>XboxProxyController.h</string>
+								<string>XboxProxy.m</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -592,6 +591,8 @@
 							<string>381pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -1196,7 +1197,7 @@
 			<key>WindowToolGUID</key>
 			<string>22E112E411F276A5004187BB</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Identifier</key>

@@ -23,6 +23,27 @@
 #define XPConnectedToProxy @"XPConnectedToProxy"
 #define XPUpdatedExternalIp @"XPUpdatedExternalIp"
 
+#pragma mark Packet Types
+typedef NSDictionary ProxyEntry;
+typedef NSDictionary Introduce;
+@interface NSDictionary (XboxPacketTypes)
+{
+}
++ (id) proxyEntryWithHost:(NSString *) host port:(UInt16) port;
++ (id) introduceAckWithHost:(NSString *) host port:(UInt16) port;
++ (id) introduceWithHost:(NSString *) host port:(UInt16) port;
+@end
+
+typedef NSArray ProxyList;
+@interface NSArray (XboxProxyList)
+{
+}
+- (id) filteredProxyListForHost:(NSString *) host port:(UInt16) port;
+@end
+
+
+
+#pragma mark Util Methods
 id getSrcMacAddress(NSData * packet);
 id getDstMacAddress(NSData * packet);
 
@@ -76,22 +97,14 @@ id getDstMacAddress(NSData * packet);
 - (void) send:(id) data toProxy:(id) proxy;
 - (void) doSend:(XboxProxySendRequest *)sendReq;
 
-- (id) createIntroduceAckWithHost:(NSString *) host port:(UInt16) port;
-- (id) createProxyEntry:(NSString *) host port:(UInt16) port;
 - (BOOL) isInjectPacket:(id) decodedPacket;
 - (BOOL) isListProxiesPacket:(id) decodedPacket;
 - (BOOL) isIntroducePacket:(id) decodedPacket;
 - (BOOL) isIntroduceAckPacket:(id) decodedPacket;
 - (BOOL) isProxyListPacket:(id) decodedPacket;
-- (BOOL) isProxyEntry:(id) entry;
-- (NSString *) getProxyEntryHost:(id) entry;
-- (NSNumber *) getProxyEntryPort:(id) entry;
-- (NSString *) getMyExternalIpFromIntroduceAck:(id) introduceAck;
-- (id) introducePacket;
 - (id) proxyList;
-- (void) sendSniffedPacket:(NSData *) packet;
 
-- (void) updateBroadcastArray:(NSArray *)newAddresses;
-- (void) handleReceivedPacket:(NSData *) packet fromHost:(NSString *) host port:(UInt16) port;
-- (void) handleIntroduce:(NSString *)host port:(UInt16)port;
+- (void) updateBroadcastArray:(ProxyEntry *)newAddresses;
+- (void) handleInject:(NSData *) packet fromHost:(NSString *) host port:(UInt16) port;
+- (void) handleIntroduce:(Introduce *) packet fromHost:(NSString *)host port:(UInt16)port;
 @end

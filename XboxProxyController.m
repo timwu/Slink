@@ -39,6 +39,7 @@
 	// If it's running, shut it down
 	if (self.xboxProxy && self.xboxProxy.running) {
 		[self.xboxProxy close];
+		self.proxyEntries = [NSMutableArray arrayWithCapacity:5];
 		return;
 	}
 	int port = [externalPortField intValue];

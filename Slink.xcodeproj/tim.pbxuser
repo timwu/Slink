@@ -2,7 +2,7 @@
 {
 	089C165DFE840E0CC02AAC07 /* English */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {776, 471}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1226, 526}}";
 			sepNavSelRange = "{0, 0}";
 			sepNavVisRange = "{0, 45}";
 		};
@@ -57,9 +57,9 @@
 		path = /Users/tim/Projects/Slink/PcapListener.m;
 		sourceTree = "<absolute>";
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1226, 1781}}";
-			sepNavSelRange = "{3173, 0}";
-			sepNavVisRange = "{0, 1115}";
+			sepNavIntBoundsRect = "{{0, 0}, {1226, 1859}}";
+			sepNavSelRange = "{671, 0}";
+			sepNavVisRange = "{2099, 1200}";
 		};
 	};
 	22222E5111EB117F00A1D603 /* PBXTextBookmark */ = {
@@ -91,7 +91,7 @@
 		fRef = 22F5F1E911EA3F6900AA933B /* XboxProxy.h */;
 		name = "XboxProxy.h: 67";
 		rLen = 0;
-		rLoc = 1675;
+		rLoc = 2181;
 		rType = 0;
 		vrLen = 1274;
 		vrLoc = 843;
@@ -101,7 +101,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 334";
 		rLen = 0;
-		rLoc = 9409;
+		rLoc = 9598;
 		rType = 0;
 		vrLen = 1795;
 		vrLoc = 8352;
@@ -121,7 +121,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 96";
 		rLen = 0;
-		rLoc = 2291;
+		rLoc = 2351;
 		rType = 0;
 		vrLen = 1308;
 		vrLoc = 3;
@@ -131,23 +131,23 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 90";
 		rLen = 0;
-		rLoc = 2449;
+		rLoc = 2509;
 		rType = 0;
 		vrLen = 1207;
 		vrLoc = 1958;
 	};
 	22D6570C11F0321500A13027 /* XboxProxyController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1226, 728}}";
+			sepNavIntBoundsRect = "{{0, 0}, {713, 728}}";
 			sepNavSelRange = "{898, 0}";
-			sepNavVisRange = "{303, 1058}";
+			sepNavVisRange = "{485, 807}";
 		};
 	};
 	22D6570D11F0321500A13027 /* XboxProxyController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1226, 1261}}";
-			sepNavSelRange = "{1892, 0}";
-			sepNavVisRange = "{1237, 1425}";
+			sepNavIntBoundsRect = "{{0, 0}, {1226, 1339}}";
+			sepNavSelRange = "{1053, 0}";
+			sepNavVisRange = "{324, 1269}";
 			sepNavWindowFrame = "{{15, 288}, {877, 885}}";
 		};
 	};
@@ -225,7 +225,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 48";
 		rLen = 0;
-		rLoc = 993;
+		rLoc = 1053;
 		rType = 0;
 		vrLen = 1327;
 		vrLoc = 0;
@@ -245,7 +245,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 59";
 		rLen = 0;
-		rLoc = 1712;
+		rLoc = 1772;
 		rType = 0;
 		vrLen = 1200;
 		vrLoc = 811;
@@ -266,7 +266,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 1;
-		rLoc = 51;
+		rLoc = 82;
 		rType = 1;
 	};
 	22E111EB11F23FDF004187BB /* PBXTextBookmark */ = {
@@ -274,7 +274,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 52";
 		rLen = 0;
-		rLoc = 1357;
+		rLoc = 2375;
 		rType = 0;
 		vrLen = 774;
 		vrLoc = 928;
@@ -284,7 +284,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 45";
 		rLen = 0;
-		rLoc = 1082;
+		rLoc = 2100;
 		rType = 0;
 		vrLen = 694;
 		vrLoc = 743;
@@ -294,7 +294,7 @@
 		fRef = 22F5F1E911EA3F6900AA933B /* XboxProxy.h */;
 		name = "XboxProxy.h: 92";
 		rLen = 0;
-		rLoc = 2583;
+		rLoc = 2740;
 		rType = 0;
 		vrLen = 1138;
 		vrLoc = 1710;
@@ -304,7 +304,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 69";
 		rLen = 0;
-		rLoc = 2017;
+		rLoc = 2077;
 		rType = 0;
 		vrLen = 662;
 		vrLoc = 1487;
@@ -333,7 +333,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 59";
 		rLen = 0;
-		rLoc = 1712;
+		rLoc = 1772;
 		rType = 0;
 		vrLen = 1200;
 		vrLoc = 811;
@@ -343,7 +343,7 @@
 		fRef = 22F5F1E911EA3F6900AA933B /* XboxProxy.h */;
 		name = "XboxProxy.h: 27";
 		rLen = 0;
-		rLoc = 705;
+		rLoc = 1211;
 		rType = 0;
 		vrLen = 1092;
 		vrLoc = 796;
@@ -354,7 +354,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 0;
-		rLoc = 107;
+		rLoc = 138;
 		rType = 1;
 	};
 	22E111FC11F2409F004187BB /* PBXTextBookmark */ = {
@@ -362,7 +362,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 97";
 		rLen = 0;
-		rLoc = 2911;
+		rLoc = 3929;
 		rType = 0;
 		vrLen = 1011;
 		vrLoc = 815;
@@ -392,7 +392,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 59";
 		rLen = 0;
-		rLoc = 1712;
+		rLoc = 1772;
 		rType = 0;
 		vrLen = 852;
 		vrLoc = 1186;
@@ -402,7 +402,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 54";
 		rLen = 0;
-		rLoc = 1414;
+		rLoc = 2432;
 		rType = 0;
 		vrLen = 1020;
 		vrLoc = 2479;
@@ -412,7 +412,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 106";
 		rLen = 0;
-		rLoc = 2911;
+		rLoc = 3929;
 		rType = 0;
 		vrLen = 1082;
 		vrLoc = 1826;
@@ -422,7 +422,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 106";
 		rLen = 0;
-		rLoc = 2911;
+		rLoc = 3929;
 		rType = 0;
 		vrLen = 966;
 		vrLoc = 2271;
@@ -462,7 +462,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 59";
 		rLen = 0;
-		rLoc = 1712;
+		rLoc = 1772;
 		rType = 0;
 		vrLen = 1316;
 		vrLoc = 171;
@@ -522,7 +522,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 59";
 		rLen = 0;
-		rLoc = 1712;
+		rLoc = 1772;
 		rType = 0;
 		vrLen = 1300;
 		vrLoc = 138;
@@ -532,7 +532,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 103";
 		rLen = 0;
-		rLoc = 2911;
+		rLoc = 3929;
 		rType = 0;
 		vrLen = 942;
 		vrLoc = 2293;
@@ -542,7 +542,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 103";
 		rLen = 0;
-		rLoc = 2911;
+		rLoc = 3929;
 		rType = 0;
 		vrLen = 945;
 		vrLoc = 2333;
@@ -593,7 +593,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 0;
-		rLoc = 75;
+		rLoc = 76;
 		rType = 1;
 	};
 	22E1123511F25C48004187BB /* PBXTextBookmark */ = {
@@ -601,7 +601,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 71";
 		rLen = 0;
-		rLoc = 2055;
+		rLoc = 2115;
 		rType = 0;
 		vrLen = 810;
 		vrLoc = 1565;
@@ -651,7 +651,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 103";
 		rLen = 0;
-		rLoc = 2911;
+		rLoc = 3929;
 		rType = 0;
 		vrLen = 1168;
 		vrLoc = 4179;
@@ -681,7 +681,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 59";
 		rLen = 0;
-		rLoc = 1712;
+		rLoc = 1772;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 1485;
@@ -691,7 +691,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 46";
 		rLen = 0;
-		rLoc = 993;
+		rLoc = 1053;
 		rType = 0;
 		vrLen = 1239;
 		vrLoc = 476;
@@ -731,7 +731,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 46";
 		rLen = 0;
-		rLoc = 993;
+		rLoc = 1053;
 		rType = 0;
 		vrLen = 1239;
 		vrLoc = 476;
@@ -801,7 +801,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 68";
 		rLen = 0;
-		rLoc = 2017;
+		rLoc = 2077;
 		rType = 0;
 		vrLen = 1100;
 		vrLoc = 0;
@@ -811,7 +811,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 72";
 		rLen = 0;
-		rLoc = 2055;
+		rLoc = 2115;
 		rType = 0;
 		vrLen = 819;
 		vrLoc = 1393;
@@ -821,7 +821,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 103";
 		rLen = 0;
-		rLoc = 2911;
+		rLoc = 3929;
 		rType = 0;
 		vrLen = 905;
 		vrLoc = 2118;
@@ -831,7 +831,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 71";
 		rLen = 0;
-		rLoc = 2020;
+		rLoc = 2080;
 		rType = 0;
 		vrLen = 1150;
 		vrLoc = 1469;
@@ -861,7 +861,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 71";
 		rLen = 0;
-		rLoc = 2020;
+		rLoc = 2080;
 		rType = 0;
 		vrLen = 1150;
 		vrLoc = 1469;
@@ -871,7 +871,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 70";
 		rLen = 0;
-		rLoc = 2017;
+		rLoc = 2077;
 		rType = 0;
 		vrLen = 1193;
 		vrLoc = 1479;
@@ -901,7 +901,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 103";
 		rLen = 0;
-		rLoc = 2911;
+		rLoc = 3929;
 		rType = 0;
 		vrLen = 905;
 		vrLoc = 2118;
@@ -911,7 +911,7 @@
 		fRef = 22F5F1E911EA3F6900AA933B /* XboxProxy.h */;
 		name = "XboxProxy.h: 63";
 		rLen = 0;
-		rLoc = 1520;
+		rLoc = 2026;
 		rType = 0;
 		vrLen = 1191;
 		vrLoc = 969;
@@ -921,7 +921,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 69";
 		rLen = 0;
-		rLoc = 2055;
+		rLoc = 2115;
 		rType = 0;
 		vrLen = 756;
 		vrLoc = 1269;
@@ -931,7 +931,7 @@
 		fRef = 22F5F1E911EA3F6900AA933B /* XboxProxy.h */;
 		name = "XboxProxy.h: 63";
 		rLen = 0;
-		rLoc = 1526;
+		rLoc = 2032;
 		rType = 0;
 		vrLen = 1120;
 		vrLoc = 860;
@@ -941,7 +941,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 103";
 		rLen = 0;
-		rLoc = 2911;
+		rLoc = 3929;
 		rType = 0;
 		vrLen = 905;
 		vrLoc = 2118;
@@ -951,7 +951,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 165";
 		rLen = 0;
-		rLoc = 4512;
+		rLoc = 5602;
 		rType = 0;
 		vrLen = 1058;
 		vrLoc = 5457;
@@ -961,7 +961,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 69";
 		rLen = 0;
-		rLoc = 2055;
+		rLoc = 2115;
 		rType = 0;
 		vrLen = 864;
 		vrLoc = 1261;
@@ -990,7 +990,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 295";
 		rLen = 0;
-		rLoc = 7606;
+		rLoc = 8384;
 		rType = 0;
 		vrLen = 1074;
 		vrLoc = 0;
@@ -1000,7 +1000,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 59";
 		rLen = 0;
-		rLoc = 1714;
+		rLoc = 1774;
 		rType = 0;
 		vrLen = 1113;
 		vrLoc = 779;
@@ -1040,7 +1040,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 59";
 		rLen = 0;
-		rLoc = 1714;
+		rLoc = 1774;
 		rType = 0;
 		vrLen = 1113;
 		vrLoc = 779;
@@ -1050,7 +1050,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 64";
 		rLen = 0;
-		rLoc = 1920;
+		rLoc = 1980;
 		rType = 0;
 		vrLen = 1109;
 		vrLoc = 801;
@@ -1070,7 +1070,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 66";
 		rLen = 0;
-		rLoc = 1923;
+		rLoc = 1983;
 		rType = 0;
 		vrLen = 1254;
 		vrLoc = 1350;
@@ -1080,7 +1080,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 62";
 		rLen = 0;
-		rLoc = 1831;
+		rLoc = 1891;
 		rType = 0;
 		vrLen = 1338;
 		vrLoc = 919;
@@ -1090,7 +1090,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 295";
 		rLen = 0;
-		rLoc = 7606;
+		rLoc = 8384;
 		rType = 0;
 		vrLen = 1055;
 		vrLoc = 19;
@@ -1100,7 +1100,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 143";
 		rLen = 0;
-		rLoc = 3791;
+		rLoc = 4809;
 		rType = 0;
 		vrLen = 1535;
 		vrLoc = 3394;
@@ -1110,7 +1110,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 143";
 		rLen = 0;
-		rLoc = 3791;
+		rLoc = 4809;
 		rType = 0;
 		vrLen = 1006;
 		vrLoc = 2853;
@@ -1120,7 +1120,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 62";
 		rLen = 0;
-		rLoc = 1831;
+		rLoc = 1891;
 		rType = 0;
 		vrLen = 1338;
 		vrLoc = 1118;
@@ -1130,7 +1130,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 62";
 		rLen = 0;
-		rLoc = 1831;
+		rLoc = 1891;
 		rType = 0;
 		vrLen = 1338;
 		vrLoc = 1118;
@@ -1140,7 +1140,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 59";
 		rLen = 0;
-		rLoc = 1714;
+		rLoc = 1774;
 		rType = 0;
 		vrLen = 1341;
 		vrLoc = 1118;
@@ -1170,7 +1170,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 59";
 		rLen = 0;
-		rLoc = 1714;
+		rLoc = 1774;
 		rType = 0;
 		vrLen = 1386;
 		vrLoc = 1072;
@@ -1210,7 +1210,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 59";
 		rLen = 0;
-		rLoc = 1714;
+		rLoc = 1774;
 		rType = 0;
 		vrLen = 1386;
 		vrLoc = 1072;
@@ -1220,7 +1220,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 62";
 		rLen = 0;
-		rLoc = 1782;
+		rLoc = 1842;
 		rType = 0;
 		vrLen = 1371;
 		vrLoc = 1118;
@@ -1230,7 +1230,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 62";
 		rLen = 0;
-		rLoc = 1776;
+		rLoc = 1836;
 		rType = 0;
 		vrLen = 1267;
 		vrLoc = 1218;
@@ -1240,7 +1240,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 62";
 		rLen = 0;
-		rLoc = 1776;
+		rLoc = 1836;
 		rType = 0;
 		vrLen = 1266;
 		vrLoc = 1218;
@@ -1250,7 +1250,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 143";
 		rLen = 0;
-		rLoc = 3791;
+		rLoc = 4809;
 		rType = 0;
 		vrLen = 875;
 		vrLoc = 2430;
@@ -1280,7 +1280,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 143";
 		rLen = 0;
-		rLoc = 3791;
+		rLoc = 4809;
 		rType = 0;
 		vrLen = 993;
 		vrLoc = 2333;
@@ -1290,7 +1290,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 95";
 		rLen = 0;
-		rLoc = 2911;
+		rLoc = 3929;
 		rType = 0;
 		vrLen = 876;
 		vrLoc = 2430;
@@ -1300,7 +1300,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 121";
 		rLen = 0;
-		rLoc = 3202;
+		rLoc = 4220;
 		rType = 0;
 		vrLen = 1085;
 		vrLoc = 2544;
@@ -1310,7 +1310,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 117";
 		rLen = 0;
-		rLoc = 3104;
+		rLoc = 4122;
 		rType = 0;
 		vrLen = 907;
 		vrLoc = 2454;
@@ -1320,7 +1320,7 @@
 		fRef = 22F5F1E911EA3F6900AA933B /* XboxProxy.h */;
 		name = "XboxProxy.h: 63";
 		rLen = 0;
-		rLoc = 1526;
+		rLoc = 2032;
 		rType = 0;
 		vrLen = 1277;
 		vrLoc = 1108;
@@ -1330,7 +1330,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 41";
 		rLen = 0;
-		rLoc = 993;
+		rLoc = 1053;
 		rType = 0;
 		vrLen = 1097;
 		vrLoc = 625;
@@ -1340,7 +1340,7 @@
 		fRef = 22F5F1E911EA3F6900AA933B /* XboxProxy.h */;
 		name = "XboxProxy.h: 63";
 		rLen = 0;
-		rLoc = 1526;
+		rLoc = 2032;
 		rType = 0;
 		vrLen = 1197;
 		vrLoc = 1057;
@@ -1350,7 +1350,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 117";
 		rLen = 0;
-		rLoc = 3104;
+		rLoc = 4122;
 		rType = 0;
 		vrLen = 953;
 		vrLoc = 2330;
@@ -1370,7 +1370,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 53";
 		rLen = 0;
-		rLoc = 1712;
+		rLoc = 1772;
 		rType = 0;
 		vrLen = 1280;
 		vrLoc = 801;
@@ -1380,7 +1380,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 63";
 		rLen = 0;
-		rLoc = 1712;
+		rLoc = 1772;
 		rType = 0;
 		vrLen = 1319;
 		vrLoc = 801;
@@ -1400,7 +1400,7 @@
 		fRef = 22F5F1E911EA3F6900AA933B /* XboxProxy.h */;
 		name = "XboxProxy.h: 64";
 		rLen = 0;
-		rLoc = 1553;
+		rLoc = 2059;
 		rType = 0;
 		vrLen = 1057;
 		vrLoc = 1057;
@@ -1410,7 +1410,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 114";
 		rLen = 0;
-		rLoc = 3011;
+		rLoc = 4029;
 		rType = 0;
 		vrLen = 965;
 		vrLoc = 2503;
@@ -1419,7 +1419,7 @@
 		isa = PBXTextBookmark;
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		rLen = 0;
-		rLoc = 55;
+		rLoc = 56;
 		rType = 1;
 	};
 	22E112E311F276A5004187BB /* PBXTextBookmark */ = {
@@ -1427,7 +1427,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 53";
 		rLen = 0;
-		rLoc = 1349;
+		rLoc = 1409;
 		rType = 0;
 		vrLen = 1315;
 		vrLoc = 883;
@@ -1437,7 +1437,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 58";
 		rLen = 0;
-		rLoc = 1532;
+		rLoc = 1592;
 		rType = 0;
 		vrLen = 1290;
 		vrLoc = 885;
@@ -1457,7 +1457,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 43";
 		rLen = 0;
-		rLoc = 1006;
+		rLoc = 1066;
 		rType = 0;
 		vrLen = 1345;
 		vrLoc = 368;
@@ -1467,7 +1467,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 60";
 		rLen = 0;
-		rLoc = 1673;
+		rLoc = 1733;
 		rType = 0;
 		vrLen = 1255;
 		vrLoc = 802;
@@ -1477,7 +1477,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 114";
 		rLen = 0;
-		rLoc = 3011;
+		rLoc = 4029;
 		rType = 0;
 		vrLen = 1044;
 		vrLoc = 2481;
@@ -1487,7 +1487,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 105";
 		rLen = 0;
-		rLoc = 2911;
+		rLoc = 3929;
 		rType = 0;
 		vrLen = 1049;
 		vrLoc = 1906;
@@ -1497,7 +1497,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 95";
 		rLen = 0;
-		rLoc = 2911;
+		rLoc = 3929;
 		rType = 0;
 		vrLen = 882;
 		vrLoc = 2197;
@@ -1507,7 +1507,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 111";
 		rLen = 0;
-		rLoc = 2929;
+		rLoc = 3947;
 		rType = 0;
 		vrLen = 904;
 		vrLoc = 2456;
@@ -1517,7 +1517,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 106";
 		rLen = 0;
-		rLoc = 2911;
+		rLoc = 3929;
 		rType = 0;
 		vrLen = 916;
 		vrLoc = 2479;
@@ -1527,7 +1527,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 104";
 		rLen = 0;
-		rLoc = 2911;
+		rLoc = 3929;
 		rType = 0;
 		vrLen = 926;
 		vrLoc = 2513;
@@ -1537,7 +1537,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 83";
 		rLen = 0;
-		rLoc = 2160;
+		rLoc = 3178;
 		rType = 0;
 		vrLen = 1319;
 		vrLoc = 4090;
@@ -1547,7 +1547,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 68";
 		rLen = 0;
-		rLoc = 1762;
+		rLoc = 2780;
 		rType = 0;
 		vrLen = 1087;
 		vrLoc = 1074;
@@ -1557,7 +1557,7 @@
 		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
 		name = "XboxProxy.m: 68";
 		rLen = 0;
-		rLoc = 1762;
+		rLoc = 2780;
 		rType = 0;
 		vrLen = 1442;
 		vrLoc = 3877;
@@ -1567,7 +1567,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 62";
 		rLen = 0;
-		rLoc = 1714;
+		rLoc = 1774;
 		rType = 0;
 		vrLen = 994;
 		vrLoc = 0;
@@ -1626,7 +1626,7 @@
 		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
 		name = "XboxProxyController.m: 67";
 		rLen = 0;
-		rLoc = 1892;
+		rLoc = 1952;
 		rType = 0;
 		vrLen = 1425;
 		vrLoc = 1237;
@@ -1649,6 +1649,472 @@
 		rType = 0;
 		vrLen = 1058;
 		vrLoc = 303;
+	};
+	22E1131F11F27E4F004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22D6570C11F0321500A13027 /* XboxProxyController.h */;
+		name = "XboxProxyController.h: 40";
+		rLen = 0;
+		rLoc = 898;
+		rType = 0;
+		vrLen = 713;
+		vrLoc = 485;
+	};
+	22E1132011F27E51004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22D6570C11F0321500A13027 /* XboxProxyController.h */;
+		name = "XboxProxyController.h: 40";
+		rLen = 0;
+		rLoc = 898;
+		rType = 0;
+		vrLen = 1058;
+		vrLoc = 303;
+	};
+	22E1132411F280FC004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22D6570C11F0321500A13027 /* XboxProxyController.h */;
+		name = "XboxProxyController.h: 40";
+		rLen = 0;
+		rLoc = 898;
+		rType = 0;
+		vrLen = 900;
+		vrLoc = 0;
+	};
+	22E1132511F280FC004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
+		name = "XboxProxyController.m: 84";
+		rLen = 0;
+		rLoc = 2522;
+		rType = 0;
+		vrLen = 1250;
+		vrLoc = 1558;
+	};
+	22E1132611F280FC004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 343";
+		rLen = 0;
+		rLoc = 9598;
+		rType = 0;
+		vrLen = 1683;
+		vrLoc = 8966;
+	};
+	22E1132711F280FC004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 11";
+		rLen = 0;
+		rLoc = 1169;
+		rType = 0;
+		vrLen = 1026;
+		vrLoc = 840;
+	};
+	22E1132B11F281FA004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 351";
+		rLen = 0;
+		rLoc = 10090;
+		rType = 0;
+		vrLen = 1541;
+		vrLoc = 8612;
+	};
+	22E1133311F284EA004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
+		name = "XboxProxyController.m: 84";
+		rLen = 0;
+		rLoc = 2522;
+		rType = 0;
+		vrLen = 1222;
+		vrLoc = 1586;
+	};
+	22E1133411F284EA004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 326";
+		rLen = 0;
+		rLoc = 8637;
+		rType = 0;
+		vrLen = 951;
+		vrLoc = 0;
+	};
+	22E1133511F284EA004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 229";
+		rLen = 0;
+		rLoc = 7124;
+		rType = 0;
+		vrLen = 1570;
+		vrLoc = 8657;
+	};
+	22E1133711F28577004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22D6570C11F0321500A13027 /* XboxProxyController.h */;
+		name = "XboxProxyController.h: 40";
+		rLen = 0;
+		rLoc = 898;
+		rType = 0;
+		vrLen = 807;
+		vrLoc = 485;
+	};
+	22E1133811F2857A004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 229";
+		rLen = 0;
+		rLoc = 7124;
+		rType = 0;
+		vrLen = 1573;
+		vrLoc = 8657;
+	};
+	22E1133B11F28D4E004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22222E2511EB00AD00A1D603 /* PcapListener.m */;
+		name = "PcapListener.m: 26";
+		rLen = 0;
+		rLoc = 671;
+		rType = 0;
+		vrLen = 1200;
+		vrLoc = 2099;
+	};
+	22E1133C11F28D4E004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 363";
+		rLen = 0;
+		rLoc = 10254;
+		rType = 0;
+		vrLen = 952;
+		vrLoc = 5374;
+	};
+	22E1133D11F28D4E004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 208";
+		rLen = 0;
+		rLoc = 6630;
+		rType = 0;
+		vrLen = 715;
+		vrLoc = 5038;
+	};
+	22E1134111F2AB67004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
+		name = "XboxProxyController.m: 84";
+		rLen = 0;
+		rLoc = 2522;
+		rType = 0;
+		vrLen = 1275;
+		vrLoc = 1533;
+	};
+	22E1134211F2AB67004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 208";
+		rLen = 0;
+		rLoc = 6630;
+		rType = 0;
+		vrLen = 842;
+		vrLoc = 5041;
+	};
+	22E1134311F2AB67004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 56";
+		rLen = 0;
+		rLoc = 2453;
+		rType = 0;
+		vrLen = 1153;
+		vrLoc = 868;
+	};
+	22E1134A11F2C2C9004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 46";
+		rLen = 0;
+		rLoc = 2125;
+		rType = 0;
+		vrLen = 1030;
+		vrLoc = 698;
+	};
+	22E1134E11F2C322004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 207";
+		rLen = 0;
+		rLoc = 6630;
+		rType = 0;
+		vrLen = 801;
+		vrLoc = 5016;
+	};
+	22E1135811F2C3C4004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 9";
+		rLen = 0;
+		rLoc = 150;
+		rType = 0;
+		vrLen = 1074;
+		vrLoc = 0;
+	};
+	22E1136011F2C400004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 27";
+		rLen = 0;
+		rLoc = 1730;
+		rType = 0;
+		vrLen = 1044;
+		vrLoc = 1007;
+	};
+	22E1136611F2C465004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 27";
+		rLen = 0;
+		rLoc = 1730;
+		rType = 0;
+		vrLen = 1074;
+		vrLoc = 0;
+	};
+	22E1136B11F2C4FD004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 27";
+		rLen = 0;
+		rLoc = 1730;
+		rType = 0;
+		vrLen = 1082;
+		vrLoc = 1197;
+	};
+	22E1136C11F2C4FD004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22D6570C11F0321500A13027 /* XboxProxyController.h */;
+		name = "XboxProxyController.h: 40";
+		rLen = 0;
+		rLoc = 898;
+		rType = 0;
+		vrLen = 1058;
+		vrLoc = 303;
+	};
+	22E1136D11F2C4FD004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
+		name = "XboxProxyController.m: 84";
+		rLen = 0;
+		rLoc = 2522;
+		rType = 0;
+		vrLen = 1412;
+		vrLoc = 1363;
+	};
+	22E1137C11F2DC63004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22D6570C11F0321500A13027 /* XboxProxyController.h */;
+		name = "XboxProxyController.h: 40";
+		rLen = 0;
+		rLoc = 898;
+		rType = 0;
+		vrLen = 807;
+		vrLoc = 485;
+	};
+	22E1137D11F2DC63004187BB /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "Property 'host' not found on object of type 'NSDictionary *'";
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 347;
+		rType = 1;
+	};
+	22E1137E11F2DC63004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 343";
+		rLen = 0;
+		rLoc = 10226;
+		rType = 0;
+		vrLen = 1176;
+		vrLoc = 9076;
+	};
+	22E1139F11F2DE87004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 70";
+		rLen = 0;
+		rLoc = 2100;
+		rType = 0;
+		vrLen = 694;
+		vrLoc = 1561;
+	};
+	22E113A011F2DE87004187BB /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "Method definition for 'isProxyEntry:' not found";
+		fRef = 22F5F1E911EA3F6900AA933B /* XboxProxy.h */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 0;
+		rLoc = 103;
+		rType = 1;
+	};
+	22E113A111F2DE87004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1E911EA3F6900AA933B /* XboxProxy.h */;
+		name = "XboxProxy.h: 104";
+		rLen = 0;
+		rLoc = 2740;
+		rType = 0;
+		vrLen = 894;
+		vrLoc = 1999;
+	};
+	22E113A211F2DE93004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
+		name = "XboxProxyController.m: 37";
+		rLen = 0;
+		rLoc = 882;
+		rType = 0;
+		vrLen = 1166;
+		vrLoc = 758;
+	};
+	22E113A311F2DE93004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 089C165DFE840E0CC02AAC07 /* English */;
+		name = "InfoPlist.strings: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 45;
+		vrLoc = 0;
+	};
+	22E113A411F2DE93004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1E911EA3F6900AA933B /* XboxProxy.h */;
+		name = "XboxProxy.h: 105";
+		rLen = 0;
+		rLoc = 2722;
+		rType = 0;
+		vrLen = 1340;
+		vrLoc = 1657;
+	};
+	22E113A511F2DE93004187BB /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "Incomplete implementation";
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 75;
+		rType = 1;
+	};
+	22E113A611F2DE93004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 70";
+		rLen = 0;
+		rLoc = 2125;
+		rType = 0;
+		vrLen = 1052;
+		vrLoc = 7326;
+	};
+	22E113AB11F2E217004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 360";
+		rLen = 0;
+		rLoc = 11343;
+		rType = 0;
+		vrLen = 1758;
+		vrLoc = 9312;
+	};
+	22E113B611F2E407004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1E911EA3F6900AA933B /* XboxProxy.h */;
+		name = "XboxProxy.h: 105";
+		rLen = 0;
+		rLoc = 2740;
+		rType = 0;
+		vrLen = 949;
+		vrLoc = 1938;
+	};
+	22E113B711F2E407004187BB /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "Method '-handleIntroduce:fromhost:port:' not found (return type defaults to 'id')";
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 366;
+		rType = 1;
+	};
+	22E113B811F2E407004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 363";
+		rLen = 0;
+		rLoc = 11156;
+		rType = 0;
+		vrLen = 1195;
+		vrLoc = 9328;
+	};
+	22E113C511F2E693004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1E911EA3F6900AA933B /* XboxProxy.h */;
+		name = "XboxProxy.h: 94";
+		rLen = 0;
+		rLoc = 2265;
+		rType = 0;
+		vrLen = 1305;
+		vrLoc = 1678;
+	};
+	22E113C611F2E693004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 363";
+		rLen = 0;
+		rLoc = 11178;
+		rType = 0;
+		vrLen = 1864;
+		vrLoc = 9302;
+	};
+	22E113C711F2E693004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 180";
+		rLen = 0;
+		rLoc = 4992;
+		rType = 0;
+		vrLen = 1229;
+		vrLoc = 4218;
+	};
+	22E113CB11F2E7F2004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */;
+		name = "XboxProxy.m: 187";
+		rLen = 0;
+		rLoc = 5255;
+		rType = 0;
+		vrLen = 1331;
+		vrLoc = 4218;
+	};
+	22E113CC11F2E7F2004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
+		name = "XboxProxyController.m: 37";
+		rLen = 0;
+		rLoc = 882;
+		rType = 0;
+		vrLen = 1168;
+		vrLoc = 756;
+	};
+	22E113CD11F2E7F2004187BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */;
+		name = "XboxProxyController.m: 42";
+		rLen = 0;
+		rLoc = 1053;
+		rType = 0;
+		vrLen = 1269;
+		vrLoc = 324;
 	};
 	22F07EAC11EEFEBE002652FF /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -1728,16 +2194,16 @@
 	};
 	22F5F1E911EA3F6900AA933B /* XboxProxy.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1226, 1365}}";
-			sepNavSelRange = "{1553, 0}";
-			sepNavVisRange = "{1057, 1057}";
+			sepNavIntBoundsRect = "{{0, 0}, {1226, 1417}}";
+			sepNavSelRange = "{2265, 0}";
+			sepNavVisRange = "{1678, 1305}";
 		};
 	};
 	22F5F1EA11EA3F6900AA933B /* XboxProxy.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1226, 5434}}";
-			sepNavSelRange = "{1762, 0}";
-			sepNavVisRange = "{3877, 1442}";
+			sepNavIntBoundsRect = "{{0, 0}, {1226, 5317}}";
+			sepNavSelRange = "{5255, 0}";
+			sepNavVisRange = "{4218, 1331}";
 		};
 	};
 	22F8DA4611EC57FD00EC4784 /* PcapListener.h */ = {
@@ -2027,6 +2493,53 @@
 			22E1131911F27B1F004187BB /* PBXTextBookmark */ = 22E1131911F27B1F004187BB /* PBXTextBookmark */;
 			22E1131A11F27B1F004187BB /* XCBuildMessageTextBookmark */ = 22E1131A11F27B1F004187BB /* XCBuildMessageTextBookmark */;
 			22E1131B11F27B1F004187BB /* PBXTextBookmark */ = 22E1131B11F27B1F004187BB /* PBXTextBookmark */;
+			22E1131F11F27E4F004187BB /* PBXTextBookmark */ = 22E1131F11F27E4F004187BB /* PBXTextBookmark */;
+			22E1132011F27E51004187BB /* PBXTextBookmark */ = 22E1132011F27E51004187BB /* PBXTextBookmark */;
+			22E1132411F280FC004187BB /* PBXTextBookmark */ = 22E1132411F280FC004187BB /* PBXTextBookmark */;
+			22E1132511F280FC004187BB /* PBXTextBookmark */ = 22E1132511F280FC004187BB /* PBXTextBookmark */;
+			22E1132611F280FC004187BB /* PBXTextBookmark */ = 22E1132611F280FC004187BB /* PBXTextBookmark */;
+			22E1132711F280FC004187BB /* PBXTextBookmark */ = 22E1132711F280FC004187BB /* PBXTextBookmark */;
+			22E1132B11F281FA004187BB /* PBXTextBookmark */ = 22E1132B11F281FA004187BB /* PBXTextBookmark */;
+			22E1133311F284EA004187BB /* PBXTextBookmark */ = 22E1133311F284EA004187BB /* PBXTextBookmark */;
+			22E1133411F284EA004187BB /* PBXTextBookmark */ = 22E1133411F284EA004187BB /* PBXTextBookmark */;
+			22E1133511F284EA004187BB /* PBXTextBookmark */ = 22E1133511F284EA004187BB /* PBXTextBookmark */;
+			22E1133711F28577004187BB /* PBXTextBookmark */ = 22E1133711F28577004187BB /* PBXTextBookmark */;
+			22E1133811F2857A004187BB /* PBXTextBookmark */ = 22E1133811F2857A004187BB /* PBXTextBookmark */;
+			22E1133B11F28D4E004187BB /* PBXTextBookmark */ = 22E1133B11F28D4E004187BB /* PBXTextBookmark */;
+			22E1133C11F28D4E004187BB /* PBXTextBookmark */ = 22E1133C11F28D4E004187BB /* PBXTextBookmark */;
+			22E1133D11F28D4E004187BB /* PBXTextBookmark */ = 22E1133D11F28D4E004187BB /* PBXTextBookmark */;
+			22E1134111F2AB67004187BB /* PBXTextBookmark */ = 22E1134111F2AB67004187BB /* PBXTextBookmark */;
+			22E1134211F2AB67004187BB /* PBXTextBookmark */ = 22E1134211F2AB67004187BB /* PBXTextBookmark */;
+			22E1134311F2AB67004187BB /* PBXTextBookmark */ = 22E1134311F2AB67004187BB /* PBXTextBookmark */;
+			22E1134A11F2C2C9004187BB /* PBXTextBookmark */ = 22E1134A11F2C2C9004187BB /* PBXTextBookmark */;
+			22E1134E11F2C322004187BB /* PBXTextBookmark */ = 22E1134E11F2C322004187BB /* PBXTextBookmark */;
+			22E1135811F2C3C4004187BB /* PBXTextBookmark */ = 22E1135811F2C3C4004187BB /* PBXTextBookmark */;
+			22E1136011F2C400004187BB /* PBXTextBookmark */ = 22E1136011F2C400004187BB /* PBXTextBookmark */;
+			22E1136611F2C465004187BB /* PBXTextBookmark */ = 22E1136611F2C465004187BB /* PBXTextBookmark */;
+			22E1136B11F2C4FD004187BB /* PBXTextBookmark */ = 22E1136B11F2C4FD004187BB /* PBXTextBookmark */;
+			22E1136C11F2C4FD004187BB /* PBXTextBookmark */ = 22E1136C11F2C4FD004187BB /* PBXTextBookmark */;
+			22E1136D11F2C4FD004187BB /* PBXTextBookmark */ = 22E1136D11F2C4FD004187BB /* PBXTextBookmark */;
+			22E1137C11F2DC63004187BB /* PBXTextBookmark */ = 22E1137C11F2DC63004187BB /* PBXTextBookmark */;
+			22E1137D11F2DC63004187BB /* XCBuildMessageTextBookmark */ = 22E1137D11F2DC63004187BB /* XCBuildMessageTextBookmark */;
+			22E1137E11F2DC63004187BB /* PBXTextBookmark */ = 22E1137E11F2DC63004187BB /* PBXTextBookmark */;
+			22E1139F11F2DE87004187BB /* PBXTextBookmark */ = 22E1139F11F2DE87004187BB /* PBXTextBookmark */;
+			22E113A011F2DE87004187BB /* XCBuildMessageTextBookmark */ = 22E113A011F2DE87004187BB /* XCBuildMessageTextBookmark */;
+			22E113A111F2DE87004187BB /* PBXTextBookmark */ = 22E113A111F2DE87004187BB /* PBXTextBookmark */;
+			22E113A211F2DE93004187BB /* PBXTextBookmark */ = 22E113A211F2DE93004187BB /* PBXTextBookmark */;
+			22E113A311F2DE93004187BB /* PBXTextBookmark */ = 22E113A311F2DE93004187BB /* PBXTextBookmark */;
+			22E113A411F2DE93004187BB /* PBXTextBookmark */ = 22E113A411F2DE93004187BB /* PBXTextBookmark */;
+			22E113A511F2DE93004187BB /* XCBuildMessageTextBookmark */ = 22E113A511F2DE93004187BB /* XCBuildMessageTextBookmark */;
+			22E113A611F2DE93004187BB /* PBXTextBookmark */ = 22E113A611F2DE93004187BB /* PBXTextBookmark */;
+			22E113AB11F2E217004187BB /* PBXTextBookmark */ = 22E113AB11F2E217004187BB /* PBXTextBookmark */;
+			22E113B611F2E407004187BB /* PBXTextBookmark */ = 22E113B611F2E407004187BB /* PBXTextBookmark */;
+			22E113B711F2E407004187BB /* XCBuildMessageTextBookmark */ = 22E113B711F2E407004187BB /* XCBuildMessageTextBookmark */;
+			22E113B811F2E407004187BB /* PBXTextBookmark */ = 22E113B811F2E407004187BB /* PBXTextBookmark */;
+			22E113C511F2E693004187BB /* PBXTextBookmark */ = 22E113C511F2E693004187BB /* PBXTextBookmark */;
+			22E113C611F2E693004187BB /* PBXTextBookmark */ = 22E113C611F2E693004187BB /* PBXTextBookmark */;
+			22E113C711F2E693004187BB /* PBXTextBookmark */ = 22E113C711F2E693004187BB /* PBXTextBookmark */;
+			22E113CB11F2E7F2004187BB /* PBXTextBookmark */ = 22E113CB11F2E7F2004187BB /* PBXTextBookmark */;
+			22E113CC11F2E7F2004187BB /* PBXTextBookmark */ = 22E113CC11F2E7F2004187BB /* PBXTextBookmark */;
+			22E113CD11F2E7F2004187BB /* PBXTextBookmark */ = 22E113CD11F2E7F2004187BB /* PBXTextBookmark */;
 			22F07EAC11EEFEBE002652FF = 22F07EAC11EEFEBE002652FF /* PBXTextBookmark */;
 			22F07ED111EF05CD002652FF = 22F07ED111EF05CD002652FF /* PBXTextBookmark */;
 			22F5F1E211EA3E9200AA933B = 22F5F1E211EA3E9200AA933B /* PBXTextBookmark */;
