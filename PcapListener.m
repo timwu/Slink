@@ -43,28 +43,28 @@ static void handlePacket(u_char *_packetHandler, const struct pcap_pkthdr *h, co
 		listenInterface = _interface;
 		delegate = _delegate;
 		if (pcap_lookupnet([listenInterface UTF8String], &net, &mask, errbuf)) {
-			[PcapListenerException raise:@"NetmaskLookupException" 
-								   format:@"Failed to lookup interface netmask: %s", errbuf];
+			NSLog(@"Failed to lookup interface netmask: %s", errbuf);
+			return nil;
 		}
 		if (!(pcap = pcap_create([listenInterface UTF8String], errbuf))) {
-			[PcapListenerException raise:@"PcapCreateException" 
-								   format:@"Failed to create pcap descriptor: %s", errbuf];
+			NSLog(@"Failed to create pcap descriptor: %s", errbuf);
+			return nil;
 		}
 		if (pcap_set_promisc(pcap, 1)) {
-			[PcapListenerException raise:@"PcapSetPromiscException" 
-								   format:@"Failed to set promiscuous mode."];
+			NSLog(@"Failed to set promiscuous mode.");
+			return nil;
 		}
 		if (pcap_set_snaplen(pcap, SNAPLEN)) {
-			[PcapListenerException raise:@"PcapSetCaptureLenException" 
-								   format:@"Failed to set pcap capture length."];
+			NSLog(@"Failed to set pcap capture length.");
+			return nil;
 		}
 		if (pcap_set_timeout(pcap, READ_TIMEOUT_MS)) {
-			[PcapListenerException raise:@"PcapSetTimeoutException" 
-								   format:@"Failed to set pcap timeout."];
+			NSLog(@"Failed to set pcap timeout.");
+			return nil;
 		}
 		if (pcap_activate(pcap)) {
-			[PcapListenerException raise:@"PcapActivateException" 
-								   format:@"Failed to activate pcap: %s", errbuf];
+			NSLog(@"Failed to activate pcap: %s", errbuf);
+			return nil;
 		}
 		self.filter = @"";
 		if (delegate) {

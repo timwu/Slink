@@ -8,7 +8,14 @@
 
 #import "XboxProxyController.h"
 
+@implementation RemoteProxyEntry
+@synthesize proxyEntry;
+@synthesize connectionState;
+@end
+
+
 @implementation XboxProxyController
+@synthesize xboxProxy;
 
 - (void) startup
 {
@@ -16,9 +23,9 @@
 	[externalPortField setIntValue:DEFAULT_PORT];
 	[deviceSelection removeAllItems];
 	[deviceSelection addItemsWithTitles:[PcapListener getAvailableInterfaces]];
-	
+	[self setProxyEntries:[NSMutableArray arrayWithCapacity:5]];
 	// Register for some notifications
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateExternalIp:) name:XPUpdatedExternalIp object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectedToProxy:) name:XPConnectedToProxy object:nil];
 }
 
 - (void) shutdown
@@ -30,52 +37,61 @@
 - (IBAction) toggleProxyState:(id) sender
 {
 	// If it's running, shut it down
-	if (xboxProxy && [xboxProxy isRunning]) {
-		[xboxProxy close];
-		xboxProxy = nil;
-		[toggleButton setTitle:@"Start"];
-		[connectButton setEnabled:NO];
+	if (self.xboxProxy && self.xboxProxy.running) {
+		[self.xboxProxy close];
 		return;
 	}
-	//NSLog(@"tasked with starting the proxy.");
 	int port = [externalPortField intValue];
 	NSString * dev = [[deviceSelection selectedItem] title];
-	NSLog(@"Device: %@, port %d", dev, port);
 	if (port == 0 || [dev isEqual:@""]) {
-		NSLog(@"Missing port or device.");
+		[[NSAlert alertWithMessageText:nil 
+						defaultButton:nil 
+					  alternateButton:nil 
+						  otherButton:nil 
+			 informativeTextWithFormat:@"Set port and listen device in preferences."] runModal];
 		return;
 	}
-	xboxProxy = [[XboxProxy alloc] initWithPort:port listenDevice:dev];
-	if ([xboxProxy start]) {
-		[connectButton setEnabled:YES];
-		[toggleButton setTitle:@"Stop"];
+	self.xboxProxy = [[XboxProxy alloc] initWithPort:port listenDevice:dev];
+	if (![self.xboxProxy start] || !self.xboxProxy.running) {
+		[[NSAlert alertWithMessageText:nil
+						defaultButton:nil 
+					  alternateButton:nil 
+						  otherButton:nil 
+			 informativeTextWithFormat:@"Failed to start xbox proxy, check console for errors."] runModal];
 	}
 }
-
 - (IBAction) connectToProxy:(id) sender
 {
-	NSString * host = [connectIp stringValue];
-	int port = [connectPort intValue];
-	if ([host isEqual:@""] || port == 0) {
-		NSLog(@"Invalid connect info: %@:%d", host, port);
-		return;
+	[[sender window] close];
+	if (self.xboxProxy && self.xboxProxy.running) {
+		[self.xboxProxy connectTo:[connectToIp stringValue] port:[connectToPort intValue]];
 	}
-	[xboxProxy connectTo:host port:port];
-	[connectIp setStringValue:@""];
-	[connectPort setStringValue:@""];
 }
 
 - (IBAction) deviceSelector:(id) sender
 {
-	if (xboxProxy && [xboxProxy isRunning]) {
-		[xboxProxy setDev:[sender titleOfSelectedItem]];
-	}
+	self.xboxProxy.dev = [sender titleOfSelectedItem];
 }
 
 #pragma mark Notification Handlers
-- (void) updateExternalIp:(NSNotification *)notification
+- (void) connectedToProxy:(NSNotification *) notification
 {
-	[externalIpField setStringValue:[[notification object] myExternalIp]];
+	NSDictionary * addedProxy = [notification userInfo];
+	RemoteProxyEntry * newProxyEntry = [RemoteProxyEntry new];
+	newProxyEntry.proxyEntry = [NSString stringWithFormat:@"%@:%@",[addedProxy objectForKey:@"host"], [addedProxy objectForKey:@"port"]];
+	newProxyEntry.connectionState = 3;
+	[self insertObject:newProxyEntry inProxyEntriesAtIndex:0];
 }
 
+#pragma mark Array Controller KVO methods
+- (void) insertObject:(RemoteProxyEntry *)proxyEntry inProxyEntriesAtIndex:(NSUInteger)index 
+{
+    [proxyEntries insertObject:proxyEntry atIndex:index];
+}
+
+- (void) removeObjectFromProxyEntriesAtIndex:(NSUInteger)index 
+{
+    [proxyEntries removeObjectAtIndex:index];
+}
+@synthesize proxyEntries;
 @end

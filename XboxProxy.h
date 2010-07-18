@@ -23,7 +23,8 @@
 #define XPConnectedToProxy @"XPConnectedToProxy"
 #define XPUpdatedExternalIp @"XPUpdatedExternalIp"
 
-typedef NSData MacAddress;
+id getSrcMacAddress(NSData * packet);
+id getDstMacAddress(NSData * packet);
 
 @interface XboxProxySendRequest : NSObject
 {
@@ -42,7 +43,7 @@ typedef NSData MacAddress;
 
 @interface XboxProxy : NSObject {
 	long sendTag;
-	BOOL isRunning;
+	BOOL running;
 	
 	// Sniffer variables
 	PcapListener * sniffer;
@@ -59,11 +60,12 @@ typedef NSData MacAddress;
 @property (assign) NSString * dev;
 @property (assign) NSString	 * filter;
 @property (assign) NSNumber * myPort;
-@property (readonly) NSString * myExternalIp;
-@property (readonly) BOOL isRunning;
+@property (assign) NSString * myExternalIp;
+@property (assign) BOOL running;
 
 - (id) initWithPort:(UInt16)port listenDevice:(NSString *) _dev;
 
+- (NSString *) status;
 - (void) close;
 - (BOOL) start;
 - (BOOL) startServerSocket;
@@ -87,8 +89,6 @@ typedef NSData MacAddress;
 - (NSString *) getMyExternalIpFromIntroduceAck:(id) introduceAck;
 - (id) introducePacket;
 - (id) proxyList;
-- (id) getDstMacAddress:(NSData *) packet;
-- (id) getSrcMacAddress:(NSData *) packet;
 - (void) sendSniffedPacket:(NSData *) packet;
 
 - (void) updateBroadcastArray:(NSArray *)newAddresses;

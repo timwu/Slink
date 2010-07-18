@@ -13,16 +13,31 @@
 
 #define DEFAULT_PORT 30000
 
+@interface RemoteProxyEntry : NSObject
+{
+	NSString * proxyEntry;
+	int connectionState;
+	
+}
+@property (assign) NSString * proxyEntry;
+@property (assign) int connectionState;
+@end
+
 @interface XboxProxyController : NSObject {
 	XboxProxy * xboxProxy;
-	IBOutlet NSTextField * externalIpField;
+#pragma mark Connect to window
+	IBOutlet NSTextField * connectToIp;
+	IBOutlet NSTextField * connectToPort;
+	
+#pragma mark Preference settings.
 	IBOutlet NSTextField * externalPortField;
-	IBOutlet NSTextField * connectIp;
-	IBOutlet NSTextField * connectPort;
 	IBOutlet NSPopUpButton * deviceSelection;
-	IBOutlet NSButton * connectButton;
-	IBOutlet NSButton * toggleButton;
+#define mark Main window settings
+	NSMutableArray * proxyEntries;
 }
+
+@property (assign) NSMutableArray * proxyEntries;
+@property (assign) XboxProxy * xboxProxy;
 
 - (void) startup;
 - (void) shutdown;
@@ -32,8 +47,9 @@
 - (IBAction) deviceSelector:(id) sender;
 
 #pragma mark Notification Handlers
-- (void) updateExternalIp:(NSNotification *) notification;
-- (void) xboxProxyStarted:(NSNotification *) notification;
-- (void) xboxProxyStopped:(NSNotification *) notification;
 - (void) connectedToProxy:(NSNotification *) notification;
+
+#pragma mark Proxy Entries KVO methods
+- (void) insertObject:(RemoteProxyEntry *)proxyEntry inProxyEntriesAtIndex:(NSUInteger)index;
+- (void) removeObjectFromProxyEntriesAtIndex:(NSUInteger)index;
 @end

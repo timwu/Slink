@@ -8,6 +8,22 @@
 
 #import "XboxProxy.h"
 
+id getDstMacAddress(NSData * packet)
+{
+	const unsigned char * packetData = [packet bytes];
+	return [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x", 
+			packetData[0], packetData[1], packetData[2],
+			packetData[3], packetData[4], packetData[5]];
+}
+
+id getSrcMacAddress(NSData * packet)
+{
+	const unsigned char * packetData = [packet bytes];
+	return [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x", 
+			packetData[6], packetData[7], packetData[8],
+			packetData[9], packetData[10], packetData[11]];
+}
+
 @implementation XboxProxySendRequest
 @synthesize data, host, port;
 - (id) initWithData:(id)_data host:(NSString *)_host port:(UInt16)_port
@@ -33,7 +49,7 @@
 - (id) initWithPort:(UInt16) port listenDevice:(NSString *) _dev
 {
 	if (self = [super init]) {
-		isRunning = NO;
+		self.running = NO;
 		serverSocket = nil;
 		sniffer = nil;
 		myExternalIp = nil;
@@ -47,6 +63,23 @@
 	return self;
 }
 
+# pragma mark Status KVO methods.
+- (NSString *) status
+{
+	if (!self.running) {
+		return @"Slink is stopped.";
+	} else {
+		NSString * ipStatus = self.myExternalIp == nil ? @"Unknown" : self.myExternalIp;
+		return [NSString stringWithFormat:@"Slink is running @ %@:%@", ipStatus, self.myPort];
+	}
+}
+
++ (NSSet *) keyPathsForValuesAffectingStatus
+{
+	return [NSSet setWithObjects:@"running",@"myExternalIp", @"myPort", nil];
+}
+
+#pragma mark Lifecycle methods.
 - (BOOL) startServerSocket
 {
 	// Kill the previous server if it's there.
@@ -76,19 +109,19 @@
 
 - (BOOL) start
 {
-	if (isRunning) {
+	if (self.running) {
 		NSLog(@"XboxProxy is already running.");
 		return YES;
-	}
-	if ([self startServerSocket] == NO) {
-		NSLog(@"Error starting server socket.");
-		return NO;
 	}
 	if ([self startSniffer] == NO) {
 		NSLog(@"Error starting packet sniffer.");
 		return NO;
 	}
-	isRunning = YES;
+	if ([self startServerSocket] == NO) {
+		NSLog(@"Error starting server socket.");
+		return NO;
+	}
+	self.running = YES;
 	[[NSNotificationCenter defaultCenter] postNotificationName:XPStarted object:self];
 	return YES;
 }
@@ -102,13 +135,14 @@
 	sniffer = nil;
 	macDestinationAddrMap = [NSMutableDictionary dictionaryWithCapacity:5];
 	allKnownProxies = [NSMutableArray arrayWithCapacity:5];
-	isRunning = NO;
+	self.running = NO;
 	[[NSNotificationCenter defaultCenter] postNotificationName:XPStopped object:self];
 }
 	
 
 - (void) connectTo:(NSString *)host port:(UInt16)port
 {
+	NSLog(@"Connecting to %@:%d", host, port);
 	// List proxies from remote
 	[self send:LIST_PROXIES_PACKET toHost:host port:port];
 	// Greet remote with "Introduce" packet
@@ -144,16 +178,15 @@
 //////////////////////////////////////////////////////////////
 #pragma mark getters/setters
 //////////////////////////////////////////////////////////////
-@synthesize isRunning;
+@synthesize running;
 @synthesize myExternalIp;
 @synthesize myPort;
 - (void) setMyPort:(NSNumber *) port
 {
 	myPort = port;
-	if (isRunning == NO) {
-		return;
+	if (self.running) {
+		[self startServerSocket];
 	}
-	[self startServerSocket];
 }
 
 @synthesize dev;
@@ -163,7 +196,9 @@
 		return;
 	}
 	dev = _dev;
-	[self startSniffer];
+	if (self.running) {
+		[self startSniffer];
+	}
 }
 
 @synthesize filter;
@@ -256,22 +291,6 @@
 	return [self getProxyEntryHost:[introduceAck objectAtIndex:1]];
 }
 
-- (id) getDstMacAddress:(NSData *)packet
-{
-	const unsigned char * packetData = [packet bytes];
-	return [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x", 
-								packetData[0], packetData[1], packetData[2],
-								packetData[3], packetData[4], packetData[5]];
-}
-
-- (id) getSrcMacAddress:(NSData *)packet
-{
-	const unsigned char * packetData = [packet bytes];
-	return [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x", 
-								packetData[6], packetData[7], packetData[8],
-								packetData[9], packetData[10], packetData[11]];
-}
-
 - (void) handleSniffedPacket:(NSData *) packet
 {
 	[self performSelector:@selector(sendSniffedPacket:) onThread:proxyThread withObject:packet waitUntilDone:NO];
@@ -279,7 +298,7 @@
 
 - (void) sendSniffedPacket:(NSData *)packet
 {
-	id dstMacAddress = [self getDstMacAddress:packet];
+	id dstMacAddress = getDstMacAddress(packet);
 	if ([dstMacAddress isEqual:BROADCAST_MAC]) {
 		for(id proxyEntry in self.proxyList) {
 			[self send:packet toProxy:proxyEntry];
@@ -305,7 +324,7 @@
 - (void) handleReceivedPacket:(NSData *)packet fromHost:(NSString *) host port:(UInt16) port
 {	
 	// Check if this mac address is in the map, if not update the map with the new mac, and where it came from
-	NSArray * srcMacAddress = [self getSrcMacAddress:packet];
+	NSArray * srcMacAddress = getSrcMacAddress(packet);
 	if ([macDestinationAddrMap objectForKey:srcMacAddress] == nil) {
 		[macDestinationAddrMap setObject:[self createProxyEntry:host port:port] forKey:srcMacAddress];
 		// Since this is a remote mac address, add it to the pcap filtering so we don't get inject feedback.
@@ -329,9 +348,8 @@
 - (void) handleIntroduceAck:(id) packet fromHost:(NSString *) host port:(UInt16) port
 {
 	[self updateBroadcastArray:[self createProxyEntry:host port:port]];
-	if (myExternalIp == nil) {
-		myExternalIp = [self getMyExternalIpFromIntroduceAck:packet];
-		[[NSNotificationCenter defaultCenter] postNotificationName:XPUpdatedExternalIp object:self];
+	if (self.myExternalIp == nil) {
+		self.myExternalIp = [self getMyExternalIpFromIntroduceAck:packet];
 	}
 }
 
