@@ -12,8 +12,17 @@
 
 @synthesize window;
 
++ (void) initialize
+{
+	NSLog(@"initializing.");
+	[[NSUserDefaults standardUserDefaults] registerDefaults:
+	 [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:DEFAULT_PORT], @"externalPort", 
+	  [NSNumber numberWithBool:YES], @"mapExternalPort", nil]];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	NSLog(@"Launching");
+
 	[xboxProxyController startup];
 }
 

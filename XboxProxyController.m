@@ -20,9 +20,9 @@
 - (void) startup
 {
 	NSLog(@"Starting up");
-	[externalPortField setIntValue:DEFAULT_PORT];
 	[deviceSelection removeAllItems];
 	[deviceSelection addItemsWithTitles:[PcapListener getAvailableInterfaces]];
+	[deviceSelection selectItemWithTitle:[[NSUserDefaults standardUserDefaults] objectForKey:@"listenDevice"]];
 	[self setProxyEntries:[NSMutableArray arrayWithCapacity:5]];
 	// Register for some notifications
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectedToProxy:) name:XPConnectedToProxy object:nil];
