@@ -13,12 +13,12 @@
 + (ProxyList *) proxyListWithPacket:(ProxyPacket *) packet
 {
 	const uint8_t * packetData = packet.packetData;
-	int numberOfProxies = (packet.length / PROXY_INFO_SZ) - 1;
+	int numberOfProxies = packet.packetLength / PROXY_INFO_SZ;
 	if (numberOfProxies <= 0) {
 		return nil;
 	}
 	NSMutableArray * proxyList = [NSMutableArray arrayWithCapacity:numberOfProxies];
-	for(int i = PACKET_HEADER_SZ; i < packet.length; i += PROXY_INFO_SZ) {
+	for(int i = 0; i < packet.packetLength; i += PROXY_INFO_SZ) {
 		[proxyList addObject:[ProxyInfo proxyInfoWithPacketData:packetData + i]];
 	}
 	return proxyList;

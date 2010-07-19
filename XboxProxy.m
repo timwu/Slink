@@ -9,20 +9,20 @@
 #import "XboxProxy.h"
 
 @implementation XboxProxySendRequest
-@synthesize data, host, port;
-- (id) initWithData:(id)_data host:(NSString *)_host port:(UInt16)_port
+@synthesize packet, host, port;
+- (id) initWithPacket:(ProxyPacket *) _packet host:(NSString *)_host port:(UInt16)_port
 {
 	if (self = [super init]) {
-		self.data = _data;
+		self.packet = _packet;
 		self.host = _host;
 		self.port = _port;
 	}
 	return self;
 }
 
-+ (id) sendRequestWithData:(id)_data host:(NSString *)_host port:(UInt16)_port
++ (id) sendRequestWithPacket:(ProxyPacket *)_packet host:(NSString *)_host port:(UInt16)_port
 {
-	return [[self alloc] initWithData:_data host:_host port:_port];
+	return [[self alloc] initWithPacket:_packet host:_host port:_port];
 }
 @end
 
@@ -38,7 +38,7 @@
 		serverSocket = nil;
 		sniffer = nil;
 		routingTable = [NSMutableDictionary dictionaryWithCapacity:5];
-		allKnownProxies = [NSMutableArray arrayWithCapacity:5];
+		allKnownProxies = [MutableProxyList arrayWithCapacity:5];
 		self.filter = @"(host 0.0.0.1)";
 		self.dev = _dev;
 		sendTag = 0;
@@ -52,7 +52,7 @@
 	if (!self.running) {
 		return @"Slink is stopped.";
 	} else {
-		return [NSString stringWithFormat:@"Slink is running @ %@:%@", self.localProxyInfo];
+		return [NSString stringWithFormat:@"Slink is running @ %@", self.localProxyInfo];
 	}
 }
 
@@ -116,7 +116,7 @@
 	[sniffer close];
 	sniffer = nil;
 	routingTable = [NSMutableDictionary dictionaryWithCapacity:5];
-	allKnownProxies = [NSMutableArray arrayWithCapacity:5];
+	allKnownProxies = [MutableProxyList arrayWithCapacity:5];
 	self.running = NO;
 	[[NSNotificationCenter defaultCenter] postNotificationName:XPStopped object:self];
 }
@@ -130,14 +130,14 @@
 	// Greet remote with "Introduce" packet
 	[self send:[ProxyPacket introducePacketToHost:host port:port] toHost:host port:port];
 	// Send your list of proxies
-	[self send:[self.allKnownProxies filteredProxyListForHost:host port:port] toHost:host port:port];
+	[self send:[[allKnownProxies filteredProxyListForHost:host port:port] proxyListPacket] toHost:host port:port];
 }
 
-- (void) send:(id) data toHost:(NSString *) host port:(UInt16) port
+- (void) send:(ProxyPacket *) packet toHost:(NSString *) host port:(UInt16) port
 {
 	[self performSelector:@selector(doSend:) 
 				 onThread:proxyThread 
-			   withObject:[XboxProxySendRequest sendRequestWithData:data host:host port:port] 
+			   withObject:[XboxProxySendRequest sendRequestWithPacket:packet host:host port:port] 
 			waitUntilDone:NO];
 }
 
@@ -148,7 +148,7 @@
 
 - (void) doSend:(XboxProxySendRequest *) sendReq
 {
-	if ([serverSocket sendData:sendReq.data toHost:sendReq.host port:sendReq.port withTimeout:SEND_TIMEOUT tag:sendTag++] == NO) {
+	if ([serverSocket sendData:sendReq.packet toHost:sendReq.host port:sendReq.port withTimeout:SEND_TIMEOUT tag:sendTag++] == NO) {
 		NSLog(@"Error sending packet.");
 	}
 }
@@ -181,26 +181,42 @@
 
 - (void) updateBroadcastArray:(ProxyInfo *) candidateProxy
 {
-	for(ProxyInfo * proxy in self.allKnownProxies) {
+	for(ProxyInfo * proxy in allKnownProxies) {
 		if ([proxy isEqualTo:candidateProxy]) {
 			// we already know about this proxy
 			return;
 		}
 	}
-	[self.allKnownProxies addObject:candidateProxy];
+	[self insertObject:candidateProxy inAllKnownProxiesAtIndex:0];
 }
 
+- (NSUInteger) countOfAllKnownProxies
+{
+	return [allKnownProxies count];
+}
+
+- (id) objectInAllKnownProxiesAtIndex:(NSUInteger) index
+{
+	return [allKnownProxies objectAtIndex:index];
+}
+
+- (void) insertObject:(ProxyInfo *) proxyInfo inAllKnownProxiesAtIndex:(NSUInteger) index
+{
+	[allKnownProxies insertObject:proxyInfo atIndex:index];
+}
+
+- (void) removeObjectFromAllKnownProxiesAtIndex:(NSUInteger) index
+{
+	[allKnownProxies removeObjectAtIndex:index];
+}
 //////////////////////////////////////////////////////////////
 #pragma mark packet handling methods
 //////////////////////////////////////////////////////////////
-// TODO: Make this KVC-compliant
-@synthesize allKnownProxies;
-
 - (void) handleSniffedPacket:(ProxyPacket *) packet
 {
 	MacAddress * dstMacAddress = packet.dstMacAddress;
 	if ([dstMacAddress isEqual:BROADCAST_MAC]) {
-		for(id proxyInfo in self.allKnownProxies) {
+		for(id proxyInfo in allKnownProxies) {
 			[self send:packet toProxy:proxyInfo];
 		}
 		return;
@@ -215,7 +231,8 @@
 
 - (void) handleProxyListReqFromHost:(NSString *) host port:(UInt16) port
 {
-	[self send:[self.allKnownProxies proxyListPacket] toHost:host port:port];
+	NSLog(@"Got a proxy list request.");
+	[self send:[allKnownProxies proxyListPacket] toHost:host port:port];
 }
 
 - (void) handleProxyListPacket:(ProxyPacket *) packet

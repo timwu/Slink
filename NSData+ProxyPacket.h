@@ -37,6 +37,7 @@ typedef enum {
 + (ProxyPacket *) listProxyReqPacket;
 - (PACKET_TYPE) packetType;
 - (const void *) packetData;
+- (NSUInteger) packetLength;
 - (MacAddress *) srcMacAddress;
 - (MacAddress *) dstMacAddress;
 - (ProxyList *) proxyList;

@@ -48,7 +48,7 @@
 {
 	ProxyInfo * proxyInfo = [ProxyInfo new];
 	proxyInfo.ip = [_ip ipValue];
-	proxyInfo.port = 0;
+	proxyInfo.port = _port;
 	proxyInfo.pingTime = 0;
 	return proxyInfo;
 }

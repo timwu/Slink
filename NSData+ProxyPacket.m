@@ -23,14 +23,14 @@
 + (ProxyPacket *) introducePacket:(ProxyInfo *) receieverInfo
 {
 	MutableProxyPacket * proxyPacket = [MutableProxyPacket proxyPacketWithType:INTRODUCE andLength:PROXY_INFO_SZ];
-	[receieverInfo writeToPacketData:proxyPacket.mutableBytes];
+	[receieverInfo writeToPacketData:proxyPacket.mutablePacketData];
 	return proxyPacket;
 }
 
 + (ProxyPacket *) introduceAckPacket:(ProxyInfo *) receieverInfo
 {
 	MutableProxyPacket * proxyPacket = [MutableProxyPacket proxyPacketWithType:INTRODUCE_ACK andLength:PROXY_INFO_SZ];
-	[receieverInfo writeToPacketData:proxyPacket.mutableBytes];
+	[receieverInfo writeToPacketData:proxyPacket.mutablePacketData];
 	return proxyPacket;
 }
 
@@ -45,20 +45,25 @@
 	return ntohl(packetHeader[0]) == CONTROL_PACKET_MAGIC ? ntohl(packetHeader[1]) : INJECT;
 }
 
-- (const void *) packetData;
+- (const void *) packetData
 {
 	return self.bytes + (sizeof(uint32_t) * 2);
 }
 
+- (NSUInteger ) packetLength
+{
+	return self.length - PACKET_HEADER_SZ;
+}
+
 - (MacAddress *) dstMacAddress
 {
-	const unsigned char * packetData = self.packetData;
+	const unsigned char * packetData = self.bytes;
 	return [MacAddress macAddressWithBytes:packetData];
 }
 
 - (MacAddress *) srcMacAddress
 {
-	const unsigned char * packetData = self.packetData;
+	const unsigned char * packetData = self.bytes;
 	return [MacAddress macAddressWithBytes:packetData + 6];
 }
 
@@ -76,7 +81,7 @@
 @implementation NSMutableData (MutableProxyPacket)
 + (MutableProxyPacket *) proxyPacketWithType:(PACKET_TYPE) type andLength:(uint32_t) length
 {
-	MutableProxyPacket * proxyPacket = [MutableProxyPacket dataWithCapacity:PACKET_HEADER_SZ + length];
+	MutableProxyPacket * proxyPacket = [MutableProxyPacket dataWithLength:PACKET_HEADER_SZ + length];
 	uint32_t * packetHeader = proxyPacket.mutableBytes;
 	packetHeader[0] = htonl(CONTROL_PACKET_MAGIC);
 	packetHeader[1] = htonl(type);

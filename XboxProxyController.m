@@ -8,12 +8,6 @@
 
 #import "XboxProxyController.h"
 
-@implementation RemoteProxyEntry
-@synthesize proxyEntry;
-@synthesize connectionState;
-@end
-
-
 @implementation XboxProxyController
 @synthesize xboxProxy;
 
@@ -23,9 +17,7 @@
 	[deviceSelection removeAllItems];
 	[deviceSelection addItemsWithTitles:[PcapListener getAvailableInterfaces]];
 	[deviceSelection selectItemWithTitle:[[NSUserDefaults standardUserDefaults] objectForKey:@"listenDevice"]];
-	[self setProxyEntries:[NSMutableArray arrayWithCapacity:5]];
 	// Register for some notifications
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectedToProxy:) name:XPConnectedToProxy object:nil];
 }
 
 - (void) shutdown
@@ -39,7 +31,6 @@
 	// If it's running, shut it down
 	if (self.xboxProxy && self.xboxProxy.running) {
 		[self.xboxProxy close];
-		self.proxyEntries = [NSMutableArray arrayWithCapacity:5];
 		return;
 	}
 	int port = [externalPortField intValue];
@@ -74,26 +65,4 @@
 {
 	self.xboxProxy.dev = [sender titleOfSelectedItem];
 }
-
-#pragma mark Notification Handlers
-- (void) connectedToProxy:(NSNotification *) notification
-{
-	NSDictionary * addedProxy = [notification userInfo];
-	RemoteProxyEntry * newProxyEntry = [RemoteProxyEntry new];
-	newProxyEntry.proxyEntry = [NSString stringWithFormat:@"%@:%@",[addedProxy objectForKey:@"host"], [addedProxy objectForKey:@"port"]];
-	newProxyEntry.connectionState = 3;
-	[self insertObject:newProxyEntry inProxyEntriesAtIndex:0];
-}
-
-#pragma mark Array Controller KVO methods
-- (void) insertObject:(RemoteProxyEntry *)proxyEntry inProxyEntriesAtIndex:(NSUInteger)index 
-{
-    [proxyEntries insertObject:proxyEntry atIndex:index];
-}
-
-- (void) removeObjectFromProxyEntriesAtIndex:(NSUInteger)index 
-{
-    [proxyEntries removeObjectAtIndex:index];
-}
-@synthesize proxyEntries;
 @end

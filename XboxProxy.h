@@ -22,16 +22,16 @@
 
 @interface XboxProxySendRequest : NSObject
 {
-	ProxyPacket * data;
+	ProxyPacket * packet;
 	NSString * host;
 	UInt16 port;
 }
-@property (assign) ProxyPacket * data;
+@property (assign) ProxyPacket * packet;
 @property (assign) NSString * host;
 @property (assign) UInt16 port;
 
-- (id) initWithData:(id) _data host:(NSString *) _host port:(UInt16) _port;
-+ (id) sendRequestWithData:(id) _data host:(NSString *) _host port:(UInt16) _port;
+- (id) initWithPacket:(ProxyPacket *) _packet host:(NSString *) _host port:(UInt16) _port;
++ (id) sendRequestWithPacket:(ProxyPacket *) _packet host:(NSString *) _host port:(UInt16) _port;
 @end
 
 
@@ -50,13 +50,17 @@
 	AsyncUdpSocket * serverSocket;
 	NSThread * proxyThread;
 }
-@property (assign) MutableProxyList * allKnownProxies;
 @property (assign) NSString * dev;
 @property (assign) NSString	 * filter;
 @property (assign) BOOL running;
 @property (readonly) ProxyInfo * localProxyInfo;
 
 - (id) initWithPort:(UInt16)port listenDevice:(NSString *) _dev;
+
+- (void) removeObjectFromAllKnownProxiesAtIndex:(NSUInteger) index;
+- (void) insertObject:(ProxyInfo *) proxyInfo inAllKnownProxiesAtIndex:(NSUInteger) index;
+- (id) objectInAllKnownProxiesAtIndex:(NSUInteger) index;
+- (NSUInteger) countOfAllKnownProxies;
 
 - (NSString *) status;
 - (void) close;
