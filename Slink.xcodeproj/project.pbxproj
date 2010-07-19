@@ -10,6 +10,10 @@
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		2200CD5111EC59530093713C /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 2200CD5011EC59530093713C /* AsyncUdpSocket.m */; };
 		2231DCD811EDB672001560EE /* PortMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2231DCD711EDB672001560EE /* PortMapper.m */; };
+		22C63EB411F3A7B00018C2F9 /* NSData+ProxyPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C63EB311F3A7B00018C2F9 /* NSData+ProxyPacket.m */; };
+		22C63EEB11F3EBE30018C2F9 /* NSString+MacAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C63EEA11F3EBE30018C2F9 /* NSString+MacAddress.m */; };
+		22C63EEE11F3EC390018C2F9 /* NSArray+ProxyList.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C63EED11F3EC390018C2F9 /* NSArray+ProxyList.m */; };
+		22C63EF111F3EC8F0018C2F9 /* ProxyInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C63EF011F3EC8F0018C2F9 /* ProxyInfo.m */; };
 		22D6570E11F0321500A13027 /* XboxProxyController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D6570D11F0321500A13027 /* XboxProxyController.m */; };
 		22F5F1EB11EA3F6900AA933B /* XboxProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F5F1EA11EA3F6900AA933B /* XboxProxy.m */; };
 		22F8DA4811EC57FD00EC4784 /* PcapListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F8DA4711EC57FD00EC4784 /* PcapListener.m */; };
@@ -28,6 +32,15 @@
 		2200CD5011EC59530093713C /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
 		2231DCD611EDB672001560EE /* PortMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortMapper.h; sourceTree = "<group>"; };
 		2231DCD711EDB672001560EE /* PortMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PortMapper.m; sourceTree = "<group>"; };
+		22C63EB211F3A7B00018C2F9 /* NSData+ProxyPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ProxyPacket.h"; sourceTree = "<group>"; };
+		22C63EB311F3A7B00018C2F9 /* NSData+ProxyPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+ProxyPacket.m"; sourceTree = "<group>"; };
+		22C63EE911F3EBE30018C2F9 /* NSString+MacAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MacAddress.h"; sourceTree = "<group>"; };
+		22C63EEA11F3EBE30018C2F9 /* NSString+MacAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MacAddress.m"; sourceTree = "<group>"; };
+		22C63EEC11F3EC390018C2F9 /* NSArray+ProxyList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+ProxyList.h"; sourceTree = "<group>"; };
+		22C63EED11F3EC390018C2F9 /* NSArray+ProxyList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+ProxyList.m"; sourceTree = "<group>"; };
+		22C63EEF11F3EC8F0018C2F9 /* ProxyInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProxyInfo.h; sourceTree = "<group>"; };
+		22C63EF011F3EC8F0018C2F9 /* ProxyInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProxyInfo.m; sourceTree = "<group>"; };
+		22C63F3D11F412B00018C2F9 /* ProxyTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProxyTypes.h; sourceTree = "<group>"; };
 		22D6570C11F0321500A13027 /* XboxProxyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XboxProxyController.h; sourceTree = "<group>"; };
 		22D6570D11F0321500A13027 /* XboxProxyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XboxProxyController.m; sourceTree = "<group>"; };
 		22F5F1E911EA3F6900AA933B /* XboxProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XboxProxy.h; sourceTree = "<group>"; };
@@ -68,6 +81,7 @@
 				256AC3D90F4B6AC300CF3369 /* SlinkAppDelegate.m */,
 				22F5F1E911EA3F6900AA933B /* XboxProxy.h */,
 				22F5F1EA11EA3F6900AA933B /* XboxProxy.m */,
+				22C63EB511F3A8F60018C2F9 /* ProxyTypes */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -114,6 +128,22 @@
 				2231DCD711EDB672001560EE /* PortMapper.m */,
 			);
 			name = PortMapper;
+			sourceTree = "<group>";
+		};
+		22C63EB511F3A8F60018C2F9 /* ProxyTypes */ = {
+			isa = PBXGroup;
+			children = (
+				22C63EB211F3A7B00018C2F9 /* NSData+ProxyPacket.h */,
+				22C63EB311F3A7B00018C2F9 /* NSData+ProxyPacket.m */,
+				22C63EE911F3EBE30018C2F9 /* NSString+MacAddress.h */,
+				22C63EEA11F3EBE30018C2F9 /* NSString+MacAddress.m */,
+				22C63EEC11F3EC390018C2F9 /* NSArray+ProxyList.h */,
+				22C63EED11F3EC390018C2F9 /* NSArray+ProxyList.m */,
+				22C63EEF11F3EC8F0018C2F9 /* ProxyInfo.h */,
+				22C63EF011F3EC8F0018C2F9 /* ProxyInfo.m */,
+				22C63F3D11F412B00018C2F9 /* ProxyTypes.h */,
+			);
+			name = ProxyTypes;
 			sourceTree = "<group>";
 		};
 		22F8DA4511EC57FD00EC4784 /* PcapListener */ = {
@@ -227,6 +257,10 @@
 				2200CD5111EC59530093713C /* AsyncUdpSocket.m in Sources */,
 				2231DCD811EDB672001560EE /* PortMapper.m in Sources */,
 				22D6570E11F0321500A13027 /* XboxProxyController.m in Sources */,
+				22C63EB411F3A7B00018C2F9 /* NSData+ProxyPacket.m in Sources */,
+				22C63EEB11F3EBE30018C2F9 /* NSString+MacAddress.m in Sources */,
+				22C63EEE11F3EC390018C2F9 /* NSArray+ProxyList.m in Sources */,
+				22C63EF111F3EC8F0018C2F9 /* ProxyInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,53 +8,6 @@
 
 #import "XboxProxy.h"
 
-#pragma mark Packet Types
-@implementation NSDictionary (XboxPacketTypes)
-+ (id) proxyEntryWithHost:(NSString *) host port:(UInt16) port
-{
-	return [NSDictionary dictionaryWithObjectsAndKeys:host, @"host",
-			[NSNumber numberWithInt:port], @"port", nil];
-}
-
-+ (id) introduceAckWithHost:(NSString *) host port:(UInt16) port
-{
-	return [NSDictionary dictionaryWithObjectsAndKeys:INTRODUCE_ACK, @"type",
-			host, @"host", [NSNumber numberWithInt:port], @"port", nil];
-}
-
-+ (id) introduceWithHost:(NSString *)host port:(UInt16)port
-{
-	return [NSDictionary dictionaryWithObjectsAndKeys:INTRODUCE, @"type",
-			host, @"host", [NSNumber numberWithInt:port], @"port", nil];
-}
-@end
-
-@implementation NSArray (XboxProxyList)
-- (id) filteredProxyListForHost:(NSString *)host port:(UInt16)port
-{
-	NSPredicate * filterOutHost = [NSPredicate predicateWithFormat:@"(host != %@) AND (port != %@)",
-								   host, [NSNumber numberWithInt:port]];
-	return [self filteredArrayUsingPredicate:filterOutHost];
-}
-@end
-
-#pragma mark Util Methods
-id getDstMacAddress(NSData * packet)
-{
-	const unsigned char * packetData = [packet bytes];
-	return [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x", 
-			packetData[0], packetData[1], packetData[2],
-			packetData[3], packetData[4], packetData[5]];
-}
-
-id getSrcMacAddress(NSData * packet)
-{
-	const unsigned char * packetData = [packet bytes];
-	return [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x", 
-			packetData[6], packetData[7], packetData[8],
-			packetData[9], packetData[10], packetData[11]];
-}
-
 @implementation XboxProxySendRequest
 @synthesize data, host, port;
 - (id) initWithData:(id)_data host:(NSString *)_host port:(UInt16)_port
@@ -80,13 +33,12 @@ id getSrcMacAddress(NSData * packet)
 - (id) initWithPort:(UInt16) port listenDevice:(NSString *) _dev
 {
 	if (self = [super init]) {
+		localProxyInfo = [ProxyInfo proxyInfoWithHost:@"0.0.0.0" port:port];
 		self.running = NO;
 		serverSocket = nil;
 		sniffer = nil;
-		myExternalIp = nil;
-		macDestinationAddrMap = [NSMutableDictionary dictionaryWithCapacity:5];
+		routingTable = [NSMutableDictionary dictionaryWithCapacity:5];
 		allKnownProxies = [NSMutableArray arrayWithCapacity:5];
-		self.myPort = [NSNumber numberWithInt:port];
 		self.filter = @"(host 0.0.0.1)";
 		self.dev = _dev;
 		sendTag = 0;
@@ -100,14 +52,13 @@ id getSrcMacAddress(NSData * packet)
 	if (!self.running) {
 		return @"Slink is stopped.";
 	} else {
-		NSString * ipStatus = self.myExternalIp == nil ? @"Unknown" : self.myExternalIp;
-		return [NSString stringWithFormat:@"Slink is running @ %@:%@", ipStatus, self.myPort];
+		return [NSString stringWithFormat:@"Slink is running @ %@:%@", self.localProxyInfo];
 	}
 }
 
 + (NSSet *) keyPathsForValuesAffectingStatus
 {
-	return [NSSet setWithObjects:@"running",@"myExternalIp", @"myPort", nil];
+	return [NSSet setWithObjects:@"running",@"localProxyInfo", nil];
 }
 
 #pragma mark Lifecycle methods.
@@ -121,8 +72,8 @@ id getSrcMacAddress(NSData * packet)
 	proxyThread = [NSThread currentThread];
 	NSError * bindError = nil;
 	serverSocket = [[AsyncUdpSocket alloc] initWithDelegate:self];
-	if([serverSocket bindToPort:[self.myPort intValue] error:&bindError] == NO) {
-		NSLog(@"Error binding to port %@. %@", self.myPort, bindError);
+	if([serverSocket bindToPort:self.localProxyInfo.port error:&bindError] == NO) {
+		NSLog(@"Error binding to port %d. %@", self.localProxyInfo.port, bindError);
 		return NO;
 	}
 	[serverSocket receiveWithTimeout:RECV_TIMEOUT tag:0];
@@ -164,7 +115,7 @@ id getSrcMacAddress(NSData * packet)
 	self.filter = @"(host 0.0.0.1)";
 	[sniffer close];
 	sniffer = nil;
-	macDestinationAddrMap = [NSMutableDictionary dictionaryWithCapacity:5];
+	routingTable = [NSMutableDictionary dictionaryWithCapacity:5];
 	allKnownProxies = [NSMutableArray arrayWithCapacity:5];
 	self.running = NO;
 	[[NSNotificationCenter defaultCenter] postNotificationName:XPStopped object:self];
@@ -175,11 +126,11 @@ id getSrcMacAddress(NSData * packet)
 {
 	NSLog(@"Connecting to %@:%d", host, port);
 	// List proxies from remote
-	[self send:LIST_PROXIES_PACKET toHost:host port:port];
+	[self send:[ProxyPacket listProxyReqPacket] toHost:host port:port];
 	// Greet remote with "Introduce" packet
-	[self send:[Introduce introduceWithHost:host port:port] toHost:host port:port];
+	[self send:[ProxyPacket introducePacketToHost:host port:port] toHost:host port:port];
 	// Send your list of proxies
-	[self send:[self.proxyList filteredProxyListForHost:host port:port] toHost:host port:port];
+	[self send:[self.allKnownProxies filteredProxyListForHost:host port:port] toHost:host port:port];
 }
 
 - (void) send:(id) data toHost:(NSString *) host port:(UInt16) port
@@ -190,19 +141,14 @@ id getSrcMacAddress(NSData * packet)
 			waitUntilDone:NO];
 }
 
-- (void) send:(id) data toProxy:(ProxyEntry *) proxy
+- (void) send:(id) data toProxy:(ProxyInfo *) proxy
 {
-	[self send:data toHost:[proxy objectForKey:@"host"] port:[[proxy objectForKey:@"port"] intValue]];
+	[self send:data toHost:proxy.ipAsString port:proxy.port];
 }
 
 - (void) doSend:(XboxProxySendRequest *) sendReq
 {
-	NSError * serializationError = nil;
-	NSData * serializedPacket = [NSPropertyListSerialization dataWithPropertyList:sendReq.data format:NSPropertyListBinaryFormat_v1_0 options:0 error:&serializationError];
-	if (serializationError) {
-		NSLog(@"Error serializing introduce packet. %@", serializationError);
-	}
-	if ([serverSocket sendData:serializedPacket toHost:sendReq.host port:sendReq.port withTimeout:SEND_TIMEOUT tag:sendTag++] == NO) {
+	if ([serverSocket sendData:sendReq.data toHost:sendReq.host port:sendReq.port withTimeout:SEND_TIMEOUT tag:sendTag++] == NO) {
 		NSLog(@"Error sending packet.");
 	}
 }
@@ -210,16 +156,7 @@ id getSrcMacAddress(NSData * packet)
 #pragma mark getters/setters
 //////////////////////////////////////////////////////////////
 @synthesize running;
-@synthesize myExternalIp;
-@synthesize myPort;
-- (void) setMyPort:(NSNumber *) port
-{
-	myPort = port;
-	if (self.running) {
-		[self startServerSocket];
-	}
-}
-
+@synthesize localProxyInfo;
 @synthesize dev;
 - (void) setDev:(NSString *)_dev
 {
@@ -242,63 +179,33 @@ id getSrcMacAddress(NSData * packet)
 	}
 }
 
-- (void) updateBroadcastArray:(ProxyEntry *) candidateProxy
+- (void) updateBroadcastArray:(ProxyInfo *) candidateProxy
 {
-	for(ProxyEntry * proxy in self.proxyList) {
+	for(ProxyInfo * proxy in self.allKnownProxies) {
 		if ([proxy isEqualTo:candidateProxy]) {
 			// we already know about this proxy
 			return;
 		}
 	}
-	[self.proxyList addObject:candidateProxy];
-	[[NSNotificationCenter defaultCenter] postNotificationName:XPConnectedToProxy 
-														object:self 
-													  userInfo:candidateProxy];
+	[self.allKnownProxies addObject:candidateProxy];
 }
 
 //////////////////////////////////////////////////////////////
 #pragma mark packet handling methods
 //////////////////////////////////////////////////////////////
-- (BOOL) isInjectPacket:(id) decodedPacket
-{
-	return [decodedPacket isKindOfClass:[NSData class]];
-}
+// TODO: Make this KVC-compliant
+@synthesize allKnownProxies;
 
-- (BOOL) isListProxiesPacket:(id) decodedPacket
+- (void) handleSniffedPacket:(ProxyPacket *) packet
 {
-	return [decodedPacket isEqual:LIST_PROXIES_PACKET];
-}
-
-- (BOOL) isIntroducePacket:(id) decodedPacket
-{
-	return [[decodedPacket objectForKey:@"type"] isEqualTo:INTRODUCE];
-}
-
-- (BOOL) isIntroduceAckPacket:(Introduce *) decodedPacket
-{
-	return [[decodedPacket objectForKey:@"type"] isEqual:INTRODUCE_ACK];
-}
-
-- (BOOL) isProxyListPacket:(id) decodedPacket
-{
-	return [decodedPacket isKindOfClass:[NSArray class]];;
-}
-
-- (id) proxyList
-{
-	return allKnownProxies;
-}
-
-- (void) handleSniffedPacket:(NSData *) packet
-{
-	id dstMacAddress = getDstMacAddress(packet);
+	MacAddress * dstMacAddress = packet.dstMacAddress;
 	if ([dstMacAddress isEqual:BROADCAST_MAC]) {
-		for(id proxyEntry in self.proxyList) {
-			[self send:packet toProxy:proxyEntry];
+		for(id proxyInfo in self.allKnownProxies) {
+			[self send:packet toProxy:proxyInfo];
 		}
 		return;
 	}
-	id destinationServer = [macDestinationAddrMap objectForKey:dstMacAddress];
+	ProxyInfo * destinationServer = [routingTable objectForKey:dstMacAddress];
 	if (destinationServer == nil) {
 		NSLog(@"Got an unknown mac: %@", dstMacAddress);
 	} else {
@@ -306,74 +213,84 @@ id getSrcMacAddress(NSData * packet)
 	}
 }
 
-- (void) handleProxyListPacket:(NSArray *) proxyList
+- (void) handleProxyListReqFromHost:(NSString *) host port:(UInt16) port
 {
+	[self send:[self.allKnownProxies proxyListPacket] toHost:host port:port];
+}
+
+- (void) handleProxyListPacket:(ProxyPacket *) packet
+{
+	ProxyList * proxyList = packet.proxyList;
 	NSLog(@"Got a proxy list packet.");
-	for(ProxyEntry * proxy in proxyList) {
-		NSLog(@"Sending introduction to: %@", proxy);
-		[self send:INTRODUCE toHost:[proxy objectForKey:@"host"] port:[[proxy objectForKey:@"port"] intValue]];
+	for(ProxyInfo * proxyInfo in proxyList) {
+		NSLog(@"Sending introduction to: %@", proxyInfo);
+		[self send:[ProxyPacket introducePacketToHost:proxyInfo.ipAsString port:proxyInfo.port] 
+			toHost:proxyInfo.ipAsString port:proxyInfo.port];
 	}
 }
 
-- (void) handleInject:(NSData *)packet fromHost:(NSString *) host port:(UInt16) port
+- (void) handleInject:(ProxyPacket *)packet fromHost:(NSString *) host port:(UInt16) port
 {	
 	// Check if this mac address is in the map, if not update the map with the new mac, and where it came from
-	NSArray * srcMacAddress = getSrcMacAddress(packet);
-	if ([macDestinationAddrMap objectForKey:srcMacAddress] == nil) {
+	MacAddress * srcMacAddress = packet.srcMacAddress;
+	if ([routingTable objectForKey:srcMacAddress] == nil) {
 		NSLog(@"Updating mac -> destination map with entry [%@ -> %@:%d]", srcMacAddress, host, port);
-		[macDestinationAddrMap setObject:[ProxyEntry proxyEntryWithHost:host port:port] forKey:srcMacAddress];
+		[routingTable setObject:[ProxyInfo proxyInfoWithHost:host port:port] forKey:srcMacAddress];
 		// Since this is a remote mac address, add it to the pcap filtering so we don't get inject feedback.
 		self.filter = [NSString stringWithFormat:@"%@ && !(ether src %@)", self.filter, srcMacAddress];
 	}
 	[sniffer inject:packet];
 }
 
-- (void) handleIntroduce:(Introduce *) packet fromHost:(NSString *) host port:(UInt16) port
+- (void) handleIntroduce:(ProxyPacket *) packet fromHost:(NSString *) host port:(UInt16) port
 {
-	NSLog(@"Got an introduction from %@:%d", host, port);
-	id candidateProxy = [ProxyEntry proxyEntryWithHost:host port:port];
-	[self updateBroadcastArray:candidateProxy];
+	ProxyInfo * proxyInfo = [ProxyInfo proxyInfoWithHost:host port:port];
+	NSLog(@"Got an introduction from %@", proxyInfo);
+	[self updateBroadcastArray:proxyInfo];
 	// Also acknowledge the introduction
-	[self send:[Introduce introduceAckWithHost:host port:port] toHost:host port:port];
-	if (self.myExternalIp == nil) {
-		NSLog(@"Updating external ip with %@", [packet objectForKey:@"host"]);
-		self.myExternalIp = [packet objectForKey:@"host"];
+	[self send:[ProxyPacket introduceAckPacket:proxyInfo] toHost:host port:port];
+	if (self.localProxyInfo.ip == 0) {
+		ProxyInfo * newProxyInfo = [packet receiverProxyInfo];
+		NSLog(@"Updating external ip with %@", newProxyInfo.ipAsString);
+		self.localProxyInfo.ip = newProxyInfo.ip;
 	}
 }
 
-- (void) handleIntroduceAck:(Introduce *) packet fromHost:(NSString *) host port:(UInt16) port
+- (void) handleIntroduceAck:(ProxyPacket *) packet fromHost:(NSString *) host port:(UInt16) port
 {
 	NSLog(@"Got introduce ack from %@:%d", host, port);
-	[self updateBroadcastArray:[ProxyEntry proxyEntryWithHost:host port:port]];
-	if (self.myExternalIp == nil) {
-		NSLog(@"Updating external ip with %@", [packet objectForKey:@"host"]);
-		self.myExternalIp = [packet objectForKey:@"host"];
+	[self updateBroadcastArray:[ProxyInfo proxyInfoWithHost:host port:port]];
+	if (self.localProxyInfo.ip == 0) {
+		ProxyInfo * newProxyInfo = [packet receiverProxyInfo];
+		NSLog(@"Updating external ip with %@", newProxyInfo.ipAsString);
+		self.localProxyInfo.ip = newProxyInfo.ip;
 	}
 }
 
 //////////////////////////////////////////////////////////////
 #pragma mark Udp Socket Receive Delegate
 //////////////////////////////////////////////////////////////
-- (BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port
+- (BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(ProxyPacket *)packet withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port
 {
-	NSError * decodingError = nil;
-	NSPropertyListFormat format;
-	id decodedPacket = [NSPropertyListSerialization propertyListWithData:data options:0 format:&format error:&decodingError];
-	if ([self isInjectPacket:decodedPacket]) {
-		[self handleInject:decodedPacket fromHost:host port:port];
-	} else if([self isProxyListPacket:decodedPacket]) {
-		[self handleProxyListPacket:decodedPacket];
-	} else if ([self isListProxiesPacket:decodedPacket]) {
-		[self send:[self.proxyList filteredProxyListForHost:host port: port] toHost:host port:port];
-	} else if ([self isIntroducePacket:decodedPacket]) {
-		[self handleIntroduce:decodedPacket fromHost:host port:port];
-	} else if ([self isIntroduceAckPacket:decodedPacket]) {
-		[self handleIntroduceAck:decodedPacket fromHost:host port:port];
-	} else {
-		NSLog(@"Got an unknown packet!");
-	}
-	if (decodingError) {
-		NSLog(@"Error decoding packet: %@", decodingError);
+	switch (packet.packetType) {
+		case INJECT:
+			[self handleInject:packet fromHost:host port:port];
+			break;
+		case INTRODUCE:
+			[self handleIntroduce:packet fromHost:host port:port];
+			break;
+		case INTRODUCE_ACK:
+			[self handleIntroduceAck:packet fromHost:host port:port];
+			break;
+		case LIST_PROXY_REQ:
+			[self handleProxyListReqFromHost:host port:port];
+			break;
+		case PROXY_LIST:
+			[self handleProxyListPacket:packet];
+			break;
+		default:
+			NSLog(@"Got an unknown packet!");
+			break;
 	}
 	[sock receiveWithTimeout:RECV_TIMEOUT tag:tag+1];
 	return YES;

@@ -33,6 +33,7 @@ static void handlePacket(u_char *_packetHandler, const struct pcap_pkthdr *h, co
 	for(pcap_if_t *devIter = dev; devIter; devIter = devIter->next) {
 		[interfaces addObject:[NSString stringWithUTF8String:devIter->name]];
 	}
+	pcap_freealldevs(dev);
 	return interfaces;
 }
 
