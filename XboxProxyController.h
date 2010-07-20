@@ -20,6 +20,7 @@
 	IBOutlet NSTextField * connectToPort;
 	IBOutlet NSPopUpButton * deviceSelection;
 	IBOutlet NSImageView * portMappingError;
+	IBOutlet NSProgressIndicator * portMappingSpinner;
 	NSNumber * mapExternalPort;
 	PortMapper * portMapper;
 }

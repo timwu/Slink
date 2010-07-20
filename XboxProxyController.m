@@ -32,8 +32,8 @@
 												 name:PortMapperChangedNotification object:portMapper];
 	portMapper.mapUDP = YES;
 	portMapper.mapTCP = NO;
-	[portMappingError setHidden:YES];
-	if(self.mapExternalPort) {
+	//[portMappingError setHidden:YES];
+	if([self.mapExternalPort boolValue]) {
 		[self openPortMapper];
 	}
 }
@@ -103,13 +103,15 @@
 
 - (void) openPortMapper
 {
-	[portMappingError setHidden:NO];
+	[portMappingError setHidden:YES];
+	[portMappingSpinner setHidden:NO];
 	if(portMapper.isMapped == NO)
 		[portMapper open];
 }
 
 - (void) handlePortMappingFinished
 {
+	[portMappingSpinner setHidden:YES];
 	[portMappingError setHidden:portMapper.isMapped];
 }
 @end

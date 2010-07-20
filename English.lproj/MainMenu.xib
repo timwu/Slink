@@ -1260,9 +1260,9 @@
 							<int key="NSTitlePosition">0</int>
 							<bool key="NSTransparent">NO</bool>
 						</object>
-						<object class="NSImageView" id="589254966">
+						<object class="NSImageView" id="291540949">
 							<reference key="NSNextResponder" ref="231630597"/>
-							<int key="NSvFlags">268</int>
+							<int key="NSvFlags">-2147483380</int>
 							<object class="NSMutableSet" key="NSDragTypes">
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSArray" key="set.sortedObjects">
@@ -1278,7 +1278,7 @@
 							<string key="NSFrame">{{313, 76}, {27, 27}}</string>
 							<reference key="NSSuperview" ref="231630597"/>
 							<bool key="NSEnabled">YES</bool>
-							<object class="NSImageCell" key="NSCell" id="71993333">
+							<object class="NSImageCell" key="NSCell" id="965995063">
 								<int key="NSCellFlags">130560</int>
 								<int key="NSCellFlags2">33554432</int>
 								<object class="NSCustomResource" key="NSContents">
@@ -1291,6 +1291,15 @@
 								<bool key="NSAnimates">NO</bool>
 							</object>
 							<bool key="NSEditable">YES</bool>
+						</object>
+						<object class="NSProgressIndicator" id="538305022">
+							<reference key="NSNextResponder" ref="231630597"/>
+							<int key="NSvFlags">-2147482356</int>
+							<object class="NSPSMatrix" key="NSDrawMatrix"/>
+							<string key="NSFrame">{{318, 82}, {16, 16}}</string>
+							<reference key="NSSuperview" ref="231630597"/>
+							<int key="NSpiFlags">28938</int>
+							<double key="NSMaxValue">100</double>
 						</object>
 					</object>
 					<string key="NSFrameSize">{478, 121}</string>
@@ -2145,9 +2154,17 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">portMappingError</string>
 						<reference key="source" ref="478700267"/>
-						<reference key="destination" ref="589254966"/>
+						<reference key="destination" ref="291540949"/>
 					</object>
 					<int key="connectionID">818</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">portMappingSpinner</string>
+						<reference key="source" ref="478700267"/>
+						<reference key="destination" ref="538305022"/>
+					</object>
+					<int key="connectionID">822</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2837,7 +2854,8 @@
 							<reference ref="552414858"/>
 							<reference ref="674523124"/>
 							<reference ref="957744187"/>
-							<reference ref="589254966"/>
+							<reference ref="291540949"/>
+							<reference ref="538305022"/>
 						</object>
 						<reference key="parent" ref="956594351"/>
 					</object>
@@ -3162,17 +3180,22 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">810</int>
-						<reference key="object" ref="589254966"/>
+						<reference key="object" ref="291540949"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="71993333"/>
+							<reference ref="965995063"/>
 						</object>
 						<reference key="parent" ref="231630597"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">811</int>
-						<reference key="object" ref="71993333"/>
-						<reference key="parent" ref="589254966"/>
+						<reference key="object" ref="965995063"/>
+						<reference key="parent" ref="291540949"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">821</int>
+						<reference key="object" ref="538305022"/>
+						<reference key="parent" ref="231630597"/>
 					</object>
 				</object>
 			</object>
@@ -3430,6 +3453,7 @@
 					<string>811.IBPluginDependency</string>
 					<string>82.IBPluginDependency</string>
 					<string>82.ImportedFromIB2</string>
+					<string>821.IBPluginDependency</string>
 					<string>83.IBPluginDependency</string>
 					<string>83.ImportedFromIB2</string>
 					<string>92.IBPluginDependency</string>
@@ -3712,7 +3736,7 @@
 						<string key="NS.key.0">ToolTip</string>
 						<object class="IBToolTipAttribute" key="NS.object.0">
 							<string key="name">ToolTip</string>
-							<reference key="object" ref="589254966"/>
+							<reference key="object" ref="291540949"/>
 							<string key="toolTip">Error mapping external port. Please check to see if your router is capable of NAT-PMP.</string>
 						</object>
 					</object>
@@ -3721,6 +3745,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3743,7 +3768,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">820</int>
+			<int key="maxID">822</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3845,6 +3870,7 @@
 							<string>connectToPort</string>
 							<string>deviceSelection</string>
 							<string>portMappingError</string>
+							<string>portMappingSpinner</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3852,6 +3878,7 @@
 							<string>NSTextField</string>
 							<string>NSPopUpButton</string>
 							<string>NSImageView</string>
+							<string>NSProgressIndicator</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -3862,6 +3889,7 @@
 							<string>connectToPort</string>
 							<string>deviceSelection</string>
 							<string>portMappingError</string>
+							<string>portMappingSpinner</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3880,6 +3908,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">portMappingError</string>
 								<string key="candidateClassName">NSImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">portMappingSpinner</string>
+								<string key="candidateClassName">NSProgressIndicator</string>
 							</object>
 						</object>
 					</object>
@@ -4507,6 +4539,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSPopUpButtonCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSProgressIndicator</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">AppKit.framework/Headers/NSProgressIndicator.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
