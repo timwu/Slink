@@ -101,7 +101,8 @@ static NSString* StringFromIPv4Addr( UInt32 ipv4Addr )
     if (self != nil) {
         _port = port;
 		_desiredPublicPort = port;
-        _mapTCP = YES;
+        _mapTCP = NO;
+		_mapUDP = YES;
     }
     return self;
 }
@@ -127,6 +128,11 @@ static NSString* StringFromIPv4Addr( UInt32 ipv4Addr )
             mapTCP=_mapTCP, mapUDP=_mapUDP,
             desiredPublicPort=_desiredPublicPort;
 
+- (void) setDesiredPublicPort:(UInt16) port
+{
+	_desiredPublicPort = port;
+	_port = port;
+}
 
 - (BOOL) isMapped
 {

@@ -15,22 +15,20 @@
 
 @interface XboxProxyController : NSObject {
 	XboxProxy * xboxProxy;
-#pragma mark Connect to window
 	IBOutlet NSTextField * connectToIp;
 	IBOutlet NSTextField * connectToPort;
-	
-#pragma mark Preference settings.
-	IBOutlet NSTextField * externalPortField;
 	IBOutlet NSPopUpButton * deviceSelection;
-#define mark Main window settings
+	NSNumber * mapExternalPort;
+	PortMapper * portMapper;
 }
 
 @property (assign) XboxProxy * xboxProxy;
+@property (assign) NSNumber * mapExternalPort;
+@property (assign) NSNumber * externalPort;
 
 - (void) startup;
 - (void) shutdown;
 
 - (IBAction) toggleProxyState:(id) sender;
 - (IBAction) connectToProxy:(id) sender;
-- (IBAction) deviceSelector:(id) sender;
 @end

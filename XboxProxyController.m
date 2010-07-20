@@ -13,37 +13,42 @@
 
 - (void) startup
 {
+	NSUserDefaultsController * userDefaultsController = [NSUserDefaultsController sharedUserDefaultsController];
 	NSLog(@"Starting up");
 	[deviceSelection removeAllItems];
 	[deviceSelection addItemsWithTitles:[PcapListener getAvailableInterfaces]];
 	[deviceSelection selectItemWithTitle:[[NSUserDefaults standardUserDefaults] objectForKey:@"listenDevice"]];
-	// Register for some notifications
+	
+	self.xboxProxy = [XboxProxy new];
+	[self.xboxProxy bind:@"dev" toObject:userDefaultsController withKeyPath:@"values.listenDevice" options:nil];
+	
+	NSString * externalIp = [PortMapper findPublicAddress];
+	if(externalIp)
+		self.xboxProxy.ip = externalIp;
+	[self bind:@"externalPort" toObject:userDefaultsController withKeyPath:@"values.externalPort" options:nil];
+	[self bind:@"mapExternalPort" toObject:userDefaultsController withKeyPath:@"values.mapExternalPort" options:nil];
+	portMapper = [[PortMapper alloc] initWithPort:[self.externalPort intValue]];
+	portMapper.mapUDP = YES;
+	portMapper.mapTCP = NO;
+	if(self.mapExternalPort) {
+		[portMapper open];
+	}
 }
 
 - (void) shutdown
 {
 	[xboxProxy close];
+	[portMapper close];
 }
 
 #pragma mark Interface builder actions
 - (IBAction) toggleProxyState:(id) sender
 {
 	// If it's running, shut it down
-	if (self.xboxProxy && self.xboxProxy.running) {
+	if (self.xboxProxy.running) {
 		[self.xboxProxy close];
 		return;
 	}
-	int port = [externalPortField intValue];
-	NSString * dev = [[deviceSelection selectedItem] title];
-	if (port == 0 || [dev isEqual:@""]) {
-		[[NSAlert alertWithMessageText:nil 
-						defaultButton:nil 
-					  alternateButton:nil 
-						  otherButton:nil 
-			 informativeTextWithFormat:@"Set port and listen device in preferences."] runModal];
-		return;
-	}
-	self.xboxProxy = [[XboxProxy alloc] initWithPort:port listenDevice:dev];
 	if (![self.xboxProxy start] || !self.xboxProxy.running) {
 		[[NSAlert alertWithMessageText:nil
 						defaultButton:nil 
@@ -61,8 +66,35 @@
 	[self.xboxProxy connectTo:[connectToIp stringValue] port:[connectToPort intValue]];
 }
 
-- (IBAction) deviceSelector:(id) sender
+- (NSNumber *) externalPort
 {
-	self.xboxProxy.dev = [sender titleOfSelectedItem];
+	return self.xboxProxy.port;
+}
+
+- (void) setExternalPort:(NSNumber *) port
+{
+	self.xboxProxy.port = port;
+	portMapper.desiredPublicPort = [port intValue];
+	if([self.mapExternalPort boolValue]) {
+		[portMapper close];
+		[portMapper open];
+	}
+}
+
+- (NSNumber *) mapExternalPort
+{
+	return mapExternalPort;
+}
+
+- (void) setMapExternalPort:(NSNumber *) map
+{
+	if(self.mapExternalPort != nil && [map isEqualToNumber:self.mapExternalPort]) return;
+	mapExternalPort = map;
+	if([self.mapExternalPort boolValue]) {
+		if(portMapper.isMapped == NO)
+			[portMapper open];
+	} else {
+		[portMapper close];
+	}
 }
 @end

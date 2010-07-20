@@ -30,18 +30,27 @@
 //////////////////////////////////////////////////////////////
 #pragma mark initializers
 //////////////////////////////////////////////////////////////
-- (id) initWithPort:(UInt16) port listenDevice:(NSString *) _dev
+- (id) init
 {
 	if (self = [super init]) {
-		localProxyInfo = [ProxyInfo proxyInfoWithHost:@"0.0.0.0" port:port];
+		localProxyInfo = [ProxyInfo proxyInfoWithHost:@"0.0.0.0" port:0];
 		self.running = NO;
 		serverSocket = nil;
 		sniffer = nil;
 		routingTable = [NSMutableDictionary dictionaryWithCapacity:5];
 		allKnownProxies = [MutableProxyList arrayWithCapacity:5];
 		self.filter = @"(host 0.0.0.1)";
-		self.dev = _dev;
+		self.dev = @"";
 		sendTag = 0;
+	}
+	return self;
+}
+
+- (id) initWithPort:(UInt16) _port listenDevice:(NSString *) _dev
+{
+	if (self = [self init]) {
+		self.port = [NSNumber numberWithInt:_port];
+		self.dev = _dev;
 	}
 	return self;
 }
@@ -52,13 +61,13 @@
 	if (!self.running) {
 		return @"Slink is stopped.";
 	} else {
-		return [NSString stringWithFormat:@"Slink is running @ %@", self.localProxyInfo];
+		return [NSString stringWithFormat:@"Slink is running @ %@", localProxyInfo];
 	}
 }
 
 + (NSSet *) keyPathsForValuesAffectingStatus
 {
-	return [NSSet setWithObjects:@"running",@"localProxyInfo", nil];
+	return [NSSet setWithObjects:@"running",@"ip", @"port", nil];
 }
 
 #pragma mark Lifecycle methods.
@@ -66,14 +75,16 @@
 {
 	// Kill the previous server if it's there.
 	if (serverSocket) {
+		NSLog(@"XboxProxy socket server was running. Shutting it down.");
 		[serverSocket close];
 	}
 	// The thread the server socket is running on will be xboxproxy's main thread.
 	proxyThread = [NSThread currentThread];
 	NSError * bindError = nil;
+	NSLog(@"Starting socket server on port %d.", localProxyInfo.port);
 	serverSocket = [[AsyncUdpSocket alloc] initWithDelegate:self];
-	if([serverSocket bindToPort:self.localProxyInfo.port error:&bindError] == NO) {
-		NSLog(@"Error binding to port %d. %@", self.localProxyInfo.port, bindError);
+	if([serverSocket bindToPort:localProxyInfo.port error:&bindError] == NO) {
+		NSLog(@"Error binding to port %d. %@", localProxyInfo.port, bindError);
 		return NO;
 	}
 	[serverSocket receiveWithTimeout:RECV_TIMEOUT tag:0];
@@ -83,8 +94,10 @@
 - (BOOL) startSniffer
 {
 	if (sniffer) {
+		NSLog(@"Sniffer already opened. Closing it...");
 		[sniffer close];
 	}
+	NSLog(@"Starting sniffer on interface %@.", self.dev);
 	sniffer = [[PcapListener alloc] initWithInterface:self.dev withDelegate:self AndFilter:filter];
 	return sniffer != nil;
 }
@@ -156,7 +169,6 @@
 #pragma mark getters/setters
 //////////////////////////////////////////////////////////////
 @synthesize running;
-@synthesize localProxyInfo;
 @synthesize dev;
 - (void) setDev:(NSString *)_dev
 {
@@ -208,6 +220,31 @@
 - (void) removeObjectFromAllKnownProxiesAtIndex:(NSUInteger) index
 {
 	[allKnownProxies removeObjectAtIndex:index];
+}
+
+- (void) setIp:(NSString *) ip
+{
+	localProxyInfo.ipAsString = ip;
+}
+
+- (NSString *) ip
+{
+	return localProxyInfo.ipAsString;
+}
+
+- (void) setPort:(NSNumber *) port
+{
+	if ([port intValue] != localProxyInfo.port) {
+		localProxyInfo.port = [port intValue];
+		if (self.running) {
+			[self startServerSocket];
+		}
+	}
+}
+
+- (NSNumber *) port
+{
+	return [NSNumber numberWithInt:localProxyInfo.port];
 }
 //////////////////////////////////////////////////////////////
 #pragma mark packet handling methods
@@ -266,10 +303,10 @@
 	[self updateBroadcastArray:proxyInfo];
 	// Also acknowledge the introduction
 	[self send:[ProxyPacket introduceAckPacket:proxyInfo] toHost:host port:port];
-	if (self.localProxyInfo.ip == 0) {
+	if (localProxyInfo.ip == 0) {
 		ProxyInfo * newProxyInfo = [packet receiverProxyInfo];
 		NSLog(@"Updating external ip with %@", newProxyInfo.ipAsString);
-		self.localProxyInfo.ip = newProxyInfo.ip;
+		localProxyInfo.ip = newProxyInfo.ip;
 	}
 }
 
@@ -277,10 +314,10 @@
 {
 	NSLog(@"Got introduce ack from %@:%d", host, port);
 	[self updateBroadcastArray:[ProxyInfo proxyInfoWithHost:host port:port]];
-	if (self.localProxyInfo.ip == 0) {
+	if (localProxyInfo.ip == 0) {
 		ProxyInfo * newProxyInfo = [packet receiverProxyInfo];
 		NSLog(@"Updating external ip with %@", newProxyInfo.ipAsString);
-		self.localProxyInfo.ip = newProxyInfo.ip;
+		localProxyInfo.ip = newProxyInfo.ip;
 	}
 }
 

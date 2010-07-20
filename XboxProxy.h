@@ -50,11 +50,13 @@
 	AsyncUdpSocket * serverSocket;
 	NSThread * proxyThread;
 }
+@property (assign) NSNumber * port;
+@property (assign) NSString * ip;
 @property (assign) NSString * dev;
 @property (assign) NSString	 * filter;
 @property (assign) BOOL running;
-@property (readonly) ProxyInfo * localProxyInfo;
 
+- (id) init;
 - (id) initWithPort:(UInt16)port listenDevice:(NSString *) _dev;
 
 - (void) removeObjectFromAllKnownProxiesAtIndex:(NSUInteger) index;
