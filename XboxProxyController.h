@@ -25,6 +25,7 @@
 @property (assign) XboxProxy * xboxProxy;
 @property (assign) NSNumber * mapExternalPort;
 @property (assign) NSNumber * externalPort;
+@property (readonly) NSNumber * portMappingError;
 
 - (void) startup;
 - (void) shutdown;

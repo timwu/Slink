@@ -97,4 +97,15 @@
 		[portMapper close];
 	}
 }
+
+- (NSNumber *) portMappingError
+{
+	BOOL error = [mapExternalPort boolValue] && !portMapper.isMapped;
+	return [NSNumber numberWithBool:error];
+}
+
++ (NSSet *) keyPathsForValuesAffectingPortMappingError
+{
+	return [NSSet setWithObjects:@"mapExternalPort", @"externalPort", nil];
+}
 @end
