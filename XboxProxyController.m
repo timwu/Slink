@@ -28,10 +28,13 @@
 	[self bind:@"externalPort" toObject:userDefaultsController withKeyPath:@"values.externalPort" options:nil];
 	[self bind:@"mapExternalPort" toObject:userDefaultsController withKeyPath:@"values.mapExternalPort" options:nil];
 	portMapper = [[PortMapper alloc] initWithPort:[self.externalPort intValue]];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePortMappingFinished) 
+												 name:PortMapperChangedNotification object:portMapper];
 	portMapper.mapUDP = YES;
 	portMapper.mapTCP = NO;
+	[portMappingError setHidden:YES];
 	if(self.mapExternalPort) {
-		[portMapper open];
+		[self openPortMapper];
 	}
 }
 
@@ -89,23 +92,24 @@
 - (void) setMapExternalPort:(NSNumber *) map
 {
 	if(self.mapExternalPort != nil && [map isEqualToNumber:self.mapExternalPort]) return;
+	[portMappingError setHidden:YES];
 	mapExternalPort = map;
 	if([self.mapExternalPort boolValue]) {
-		if(portMapper.isMapped == NO)
-			[portMapper open];
+		[self openPortMapper];
 	} else {
 		[portMapper close];
 	}
 }
 
-- (NSNumber *) portMappingError
+- (void) openPortMapper
 {
-	BOOL error = [mapExternalPort boolValue] && !portMapper.isMapped;
-	return [NSNumber numberWithBool:error];
+	[portMappingError setHidden:NO];
+	if(portMapper.isMapped == NO)
+		[portMapper open];
 }
 
-+ (NSSet *) keyPathsForValuesAffectingPortMappingError
+- (void) handlePortMappingFinished
 {
-	return [NSSet setWithObjects:@"mapExternalPort", @"externalPort", nil];
+	[portMappingError setHidden:portMapper.isMapped];
 }
 @end

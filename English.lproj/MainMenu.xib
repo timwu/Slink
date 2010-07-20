@@ -1260,9 +1260,9 @@
 							<int key="NSTitlePosition">0</int>
 							<bool key="NSTransparent">NO</bool>
 						</object>
-						<object class="NSImageView" id="728831158">
+						<object class="NSImageView" id="589254966">
 							<reference key="NSNextResponder" ref="231630597"/>
-							<int key="NSvFlags">-2147483380</int>
+							<int key="NSvFlags">268</int>
 							<object class="NSMutableSet" key="NSDragTypes">
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSArray" key="set.sortedObjects">
@@ -1278,7 +1278,7 @@
 							<string key="NSFrame">{{313, 76}, {27, 27}}</string>
 							<reference key="NSSuperview" ref="231630597"/>
 							<bool key="NSEnabled">YES</bool>
-							<object class="NSImageCell" key="NSCell" id="558403518">
+							<object class="NSImageCell" key="NSCell" id="71993333">
 								<int key="NSCellFlags">130560</int>
 								<int key="NSCellFlags2">33554432</int>
 								<object class="NSCustomResource" key="NSContents">
@@ -2142,24 +2142,12 @@
 					<int key="connectionID">804</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: portMappingError</string>
-						<reference key="source" ref="728831158"/>
-						<reference key="destination" ref="478700267"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="728831158"/>
-							<reference key="NSDestination" ref="478700267"/>
-							<string key="NSLabel">hidden: portMappingError</string>
-							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">portMappingError</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSNullPlaceholder</string>
-								<integer value="0" key="NS.object.0"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">portMappingError</string>
+						<reference key="source" ref="478700267"/>
+						<reference key="destination" ref="589254966"/>
 					</object>
-					<int key="connectionID">816</int>
+					<int key="connectionID">818</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2849,7 +2837,7 @@
 							<reference ref="552414858"/>
 							<reference ref="674523124"/>
 							<reference ref="957744187"/>
-							<reference ref="728831158"/>
+							<reference ref="589254966"/>
 						</object>
 						<reference key="parent" ref="956594351"/>
 					</object>
@@ -3174,17 +3162,17 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">810</int>
-						<reference key="object" ref="728831158"/>
+						<reference key="object" ref="589254966"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="558403518"/>
+							<reference ref="71993333"/>
 						</object>
 						<reference key="parent" ref="231630597"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">811</int>
-						<reference key="object" ref="558403518"/>
-						<reference key="parent" ref="728831158"/>
+						<reference key="object" ref="71993333"/>
+						<reference key="parent" ref="589254966"/>
 					</object>
 				</object>
 			</object>
@@ -3724,7 +3712,7 @@
 						<string key="NS.key.0">ToolTip</string>
 						<object class="IBToolTipAttribute" key="NS.object.0">
 							<string key="name">ToolTip</string>
-							<reference key="object" ref="728831158"/>
+							<reference key="object" ref="589254966"/>
 							<string key="toolTip">Error mapping external port. Please check to see if your router is capable of NAT-PMP.</string>
 						</object>
 					</object>
@@ -3755,7 +3743,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">816</int>
+			<int key="maxID">820</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3856,12 +3844,14 @@
 							<string>connectToIp</string>
 							<string>connectToPort</string>
 							<string>deviceSelection</string>
+							<string>portMappingError</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSPopUpButton</string>
+							<string>NSImageView</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -3871,6 +3861,7 @@
 							<string>connectToIp</string>
 							<string>connectToPort</string>
 							<string>deviceSelection</string>
+							<string>portMappingError</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3885,6 +3876,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">deviceSelection</string>
 								<string key="candidateClassName">NSPopUpButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">portMappingError</string>
+								<string key="candidateClassName">NSImageView</string>
 							</object>
 						</object>
 					</object>

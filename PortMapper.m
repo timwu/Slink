@@ -103,6 +103,7 @@ static NSString* StringFromIPv4Addr( UInt32 ipv4Addr )
 		_desiredPublicPort = port;
         _mapTCP = NO;
 		_mapUDP = YES;
+		havePortMapping = NO;
     }
     return self;
 }
@@ -126,7 +127,7 @@ static NSString* StringFromIPv4Addr( UInt32 ipv4Addr )
 @synthesize publicAddress=_publicAddress, rawPublicAddress=_rawPublicAddress,
             publicPort=_publicPort, error=_error, _service=_service,
             mapTCP=_mapTCP, mapUDP=_mapUDP,
-            desiredPublicPort=_desiredPublicPort;
+            desiredPublicPort=_desiredPublicPort, havePortMapping;
 
 - (void) setDesiredPublicPort:(UInt16) port
 {
@@ -169,6 +170,7 @@ static NSString* StringFromIPv4Addr( UInt32 ipv4Addr )
 			self.error = -1;
 		}
     }
+	havePortMapping = YES;
     [[NSNotificationCenter defaultCenter] postNotificationName: PortMapperChangedNotification
                                                         object: self];
 }
@@ -224,6 +226,7 @@ static void serviceCallback(CFSocketRef s,
 - (BOOL) open
 {
     NSAssert(!_service,@"Already open");
+	havePortMapping = NO;
     // Create the DNSService:
     DNSServiceProtocol protocol = 0;
     if( _mapTCP ) protocol |= kDNSServiceProtocol_TCP;
@@ -306,6 +309,7 @@ static void serviceCallback(CFSocketRef s,
 
 - (void) close
 {
+	havePortMapping = NO;
     [self priv_disconnect];
     self.error = 0;
 }

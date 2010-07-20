@@ -79,7 +79,7 @@ Copyright © 2007 Apple Inc. All Rights Reserved.
 @interface PortMapper : NSObject
 {
     UInt16 _port, _desiredPublicPort, _publicPort;
-    BOOL _mapTCP, _mapUDP;
+    BOOL _mapTCP, _mapUDP, havePortMapping;
     SInt32 _error;
     void* /*DNSServiceRef*/ _service; // Typed void* to avoid having to #include <dnssd.h> in this header
     CFSocketRef _socket;
@@ -133,7 +133,7 @@ Copyright © 2007 Apple Inc. All Rights Reserved.
 /** Returns YES if a non-null port mapping is in effect: 
     that is, if the public address differs from the local one. */
 @property (readonly) BOOL isMapped;
-
+@property (readonly) BOOL havePortMapping;
 
 // UTILITY CLASS METHODS:
 

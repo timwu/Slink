@@ -12,12 +12,14 @@
 #import "PcapListener.h"
 
 #define DEFAULT_PORT 30000
+#define PORT_MAP_TIMEOUT 10
 
 @interface XboxProxyController : NSObject {
 	XboxProxy * xboxProxy;
 	IBOutlet NSTextField * connectToIp;
 	IBOutlet NSTextField * connectToPort;
 	IBOutlet NSPopUpButton * deviceSelection;
+	IBOutlet NSImageView * portMappingError;
 	NSNumber * mapExternalPort;
 	PortMapper * portMapper;
 }
@@ -25,11 +27,13 @@
 @property (assign) XboxProxy * xboxProxy;
 @property (assign) NSNumber * mapExternalPort;
 @property (assign) NSNumber * externalPort;
-@property (readonly) NSNumber * portMappingError;
 
 - (void) startup;
 - (void) shutdown;
 
 - (IBAction) toggleProxyState:(id) sender;
 - (IBAction) connectToProxy:(id) sender;
+
+- (void) openPortMapper;
+- (void) handlePortMappingFinished;
 @end
