@@ -59,7 +59,7 @@
 	ipAsString = [NSString stringWithIp:_ip];
 }
 
-- (NSSet *) keyPathsForValuesAffectingIpAsString
++ (NSSet *) keyPathsForValuesAffectingIpAsString
 {
 	return [NSSet setWithObjects:@"ip", nil];
 }
@@ -70,9 +70,14 @@
 	ip = [_ip ipValue];
 }
 
-- (NSSet *) keyPathsForValuesAffectingIp
++ (NSSet *) keyPathsForValuesAffectingIp
 {
 	return [NSSet setWithObjects:@"ipAsString", nil];
+}
+
++ (NSSet *) keyPathsForValuesAffectingDescription
+{
+	return [NSSet setWithObjects:@"ipAsString", @"ip", @"port", nil];
 }
 
 - (NSString *) description

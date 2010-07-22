@@ -16,8 +16,8 @@
 
 @interface XboxProxyController : NSObject {
 	XboxProxy * xboxProxy;
-	IBOutlet NSTextField * connectToIp;
-	IBOutlet NSTextField * connectToPort;
+	IBOutlet NSButton * startStopButton;
+	IBOutlet NSTextField * connectInfo;
 	IBOutlet NSPopUpButton * deviceSelection;
 	IBOutlet NSImageView * portMappingError;
 	IBOutlet NSProgressIndicator * portMappingSpinner;

@@ -50,6 +50,7 @@
 	// If it's running, shut it down
 	if (self.xboxProxy.running) {
 		[self.xboxProxy close];
+		[startStopButton setState:0];
 		return;
 	}
 	if (![self.xboxProxy start] || !self.xboxProxy.running) {
@@ -59,14 +60,26 @@
 						  otherButton:nil 
 			 informativeTextWithFormat:@"Failed to start xbox proxy, check console for errors."] runModal];
 	}
+	[startStopButton setState:1];
 }
 - (IBAction) connectToProxy:(id) sender
 {
-	[[sender window] close];
+	NSArray * splitConnectionInfo = [[connectInfo stringValue] componentsSeparatedByString:@":"];
+	NSString * ip = [splitConnectionInfo objectAtIndex:0];
+	int port = [[splitConnectionInfo objectAtIndex:1] intValue];
+	if(port <= 0 || port > 65535) {
+		[[NSAlert alertWithMessageText:nil
+						 defaultButton:nil 
+					   alternateButton:nil 
+						   otherButton:nil 
+			 informativeTextWithFormat:@"Invalid port"] runModal];
+		return;
+	}
 	if(self.xboxProxy == nil || self.xboxProxy.running == NO) {
 		[self toggleProxyState:sender];
 	}
-	[self.xboxProxy connectTo:[connectToIp stringValue] port:[connectToPort intValue]];
+	[self.xboxProxy connectTo:ip port:port];
+	[connectInfo setStringValue:@""];
 }
 
 - (NSNumber *) externalPort

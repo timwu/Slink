@@ -24,9 +24,9 @@
 	return proxyList;
 }
 
-- (id) filteredProxyListForHost:(NSString *)host port:(UInt16)port
+- (ProxyList *) filteredProxyListForHost:(NSString *)host port:(UInt16)port
 {
-	NSPredicate * filterOutHost = [NSPredicate predicateWithFormat:@"(host != %@) AND (port != %@)",
+	NSPredicate * filterOutHost = [NSPredicate predicateWithFormat:@"(ip != %@) AND (port != %@)",
 								   host, [NSNumber numberWithInt:port]];
 	return [self filteredArrayUsingPredicate:filterOutHost];
 }

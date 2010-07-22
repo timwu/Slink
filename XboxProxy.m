@@ -129,7 +129,9 @@
 	[sniffer close];
 	sniffer = nil;
 	routingTable = [NSMutableDictionary dictionaryWithCapacity:5];
-	allKnownProxies = [MutableProxyList arrayWithCapacity:5];
+	for(int i = 0; i < [self countOfAllKnownProxies]; i++) {
+		[self removeObjectFromAllKnownProxiesAtIndex:0];
+	}
 	self.running = NO;
 	[[NSNotificationCenter defaultCenter] postNotificationName:XPStopped object:self];
 }
@@ -269,7 +271,7 @@
 - (void) handleProxyListReqFromHost:(NSString *) host port:(UInt16) port
 {
 	NSLog(@"Got a proxy list request.");
-	[self send:[allKnownProxies proxyListPacket] toHost:host port:port];
+	[self send:[[allKnownProxies filteredProxyListForHost:host port:port] proxyListPacket] toHost:host port:port];
 }
 
 - (void) handleProxyListPacket:(ProxyPacket *) packet
@@ -306,7 +308,7 @@
 	if (localProxyInfo.ip == 0) {
 		ProxyInfo * newProxyInfo = [packet receiverProxyInfo];
 		NSLog(@"Updating external ip with %@", newProxyInfo.ipAsString);
-		localProxyInfo.ip = newProxyInfo.ip;
+		self.ip = newProxyInfo.ipAsString;
 	}
 }
 
@@ -317,7 +319,7 @@
 	if (localProxyInfo.ip == 0) {
 		ProxyInfo * newProxyInfo = [packet receiverProxyInfo];
 		NSLog(@"Updating external ip with %@", newProxyInfo.ipAsString);
-		localProxyInfo.ip = newProxyInfo.ip;
+		self.ip = newProxyInfo.ipAsString;
 	}
 }
 
