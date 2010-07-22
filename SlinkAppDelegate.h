@@ -10,11 +10,12 @@
 #import "XboxProxy.h"
 #import "XboxProxyController.h"
 
+
 @interface SlinkAppDelegate : NSObject <NSApplicationDelegate> {
     NSWindow *window;
-	IBOutlet XboxProxyController * xboxProxyController;
+	NSArray * deviceList;
 }
 
 @property (assign) IBOutlet NSWindow *window;
-
+@property (assign) NSArray * deviceList;
 @end

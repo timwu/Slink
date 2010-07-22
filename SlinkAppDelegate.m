@@ -7,10 +7,11 @@
 //
 
 #import "SlinkAppDelegate.h"
+#import "PcapListener.h"
 
 @implementation SlinkAppDelegate
 
-@synthesize window;
+@synthesize window, deviceList;
 
 + (void) initialize
 {
@@ -22,14 +23,12 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	NSLog(@"Launching");
-
-	[xboxProxyController startup];
+	self.deviceList = [PcapListener getAvailableInterfaces];
 }
 
 - (NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication *)sender
 {
 	NSLog(@"Going down....");
-	[xboxProxyController shutdown];
 	return NSTerminateNow;
 }
 

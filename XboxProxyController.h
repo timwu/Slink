@@ -10,6 +10,7 @@
 #import "XboxProxy.h"
 #import "PortMapper.h"
 #import "PcapListener.h"
+#import "SlinkSessionController.h"
 
 #define DEFAULT_PORT 30000
 #define PORT_MAP_TIMEOUT 10
@@ -23,6 +24,8 @@
 	IBOutlet NSProgressIndicator * portMappingSpinner;
 	NSNumber * mapExternalPort;
 	PortMapper * portMapper;
+	
+	NSMutableArray * activeSessions;
 }
 
 @property (assign) XboxProxy * xboxProxy;
@@ -37,4 +40,5 @@
 
 - (void) openPortMapper;
 - (void) handlePortMappingFinished;
+- (IBAction) openSession:(id) sender;
 @end

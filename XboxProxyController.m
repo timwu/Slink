@@ -13,6 +13,7 @@
 
 - (void) startup
 {
+	activeSessions = [NSMutableArray arrayWithCapacity:5];
 	NSUserDefaultsController * userDefaultsController = [NSUserDefaultsController sharedUserDefaultsController];
 	NSLog(@"Starting up");
 	[deviceSelection removeAllItems];
@@ -126,5 +127,20 @@
 {
 	[portMappingSpinner setHidden:YES];
 	[portMappingError setHidden:portMapper.isMapped];
+}
+
+- (IBAction) openSession:(id) sender
+{
+	SlinkSessionController * slinkSessionController = [SlinkSessionController new];
+	if (!slinkSessionController) {
+		NSLog(@"Failed to start slink.");
+		return;
+	}
+	if(![NSBundle loadNibNamed:@"SlinkSessionWindow" owner:slinkSessionController]) {
+		NSLog(@"Failed to load SlinkSessionWindow nib.");
+		return;
+	}
+	[slinkSessionController.sessionWindow makeKeyAndOrderFront:self];
+	[activeSessions addObject:slinkSessionController];
 }
 @end
