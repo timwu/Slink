@@ -19,9 +19,9 @@ typedef NSMutableData MutableProxyPacket;
 #define CONTROL_PACKET_MAGIC 0x12345678
 // Magic number and the type
 #define PACKET_HEADER_SZ (sizeof(uint32_t) * 2)
-#define ETHERNET_HEADER 14
-#define IP_HEADER 20
-#define UDP_HEADER 8
+#define ETHERNET_HEADER_SZ 14
+#define IP_HEADER_SZ 20
+#define UDP_HEADER_SZ 8
 
 typedef enum {
 	INJECT,

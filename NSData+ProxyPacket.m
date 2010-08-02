@@ -47,32 +47,31 @@
 
 - (PACKET_TYPE) filterInject
 {
-   if([self length] < ETHERNET_HEADER+IP_HEADER+UDP_HEADER)
+   if([self length] < ETHERNET_HEADER_SZ+IP_HEADER_SZ+UDP_HEADER_SZ)
    {
       NSLog(@"Packet smaller than header size!");
       return INVALID;
    }
-   const uint16_t * packetData = self.bytes;
-   uint32_t srcIp = ntohl((packetData[13] << 16) | packetData[14]);
-   //if(!((packetData[13] == 0x0000) && (packetData[14] == 0x0001)))
-   if(!(srcIp == 0x00000001))
-   {
-      NSLog(@"Packet src IP not 0.0.0.1! Packet src IP: %@", srcIp);
+   
+   const uint8_t * packetData = self.bytes;
+   uint32_t srcIp = ((packetData[26] << 24) | (packetData[27] << 16) | (packetData[28] << 8) | packetData[29]);
+   if(!(srcIp == 0x00000001)) {
+      NSLog(@"Packet src IP not 0.0.0.1! Packet src IP: %x", srcIp);
       return INVALID;
    }
-   uint32_t dstIp = ntohl((packetData[15] << 16) | packetData[16]);
-   //if(!((packetData[15] == 0xFFFF) && (packetData[16] == 0xFFFF)))
-   if(!(dstIp == 0xFFFFFFFF))
+   
+   uint32_t dstIp = ((packetData[30] << 24) | (packetData[31] << 16) | (packetData[32] << 8) | packetData[33]);
+   if(!((dstIp == 0xFFFFFFFF) || (dstIp == 0x00000001)))
    {
-      NSLog(@"Packet dst IP not 255.255.255.255! Packet dst IP: %@", dstIp);
+      NSLog(@"Packet dst IP not 255.255.255.255 or 0.0.0.1! Packet dst IP: %x", dstIp);
       return INVALID;
    }
-   uint16_t srcPort = ntohl(packetData[17]);
-   uint16_t dstPort = ntohl(packetData[18]);
-   //if(!((packetData[17] == 0x0C02) && (packetData[18] == 0x0C02)))
+   
+   uint16_t srcPort = ((packetData[34] << 8) | packetData[35]);
+   uint16_t dstPort = ((packetData[36] << 8) | packetData[37]);
    if(!((srcPort == 0x0C02) && (dstPort == 0x0C02)))
    {
-      NSLog(@"Packet src and dst ports not for xbox (3074)! Src port: %@, Dst port: %@", srcPort, dstPort);
+      NSLog(@"Packet src and dst ports not for 'xbox' (3074)! Src port: %x, Dst port: %x", srcPort, dstPort);
       return INVALID;
    }
    return INJECT;
